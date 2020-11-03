@@ -27,7 +27,7 @@ namespace GameEngine
     public class Registers
     {
 #if (DEBUG)
-        public static string version = "0.8.18 | DEV CHANNEL";
+        public static string version = "0.8.21 | DEV CHANNEL";
 #else
         public static string version = "0.8.16 | PROD CHANNEL";
 #endif

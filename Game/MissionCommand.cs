@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GameEngine
 {
@@ -19,7 +16,7 @@ namespace GameEngine
         Rectanglef rec_landscape;
         Rectanglef rec_pausemenu;
         Rectanglef rec_crosshair = new Rectanglef(Registers.CrosshairX, Registers.CrosshairY, 15, 15);
-        Vector2f crossHair = new Vector2f(Registers.ScreenWidth / 0.5f, Registers.ScreenHeight * 0.5f);
+        Vector2f crossHair = new Vector2f(Registers.ScreenWidth * 0.5f, Registers.ScreenHeight * 0.5f);
         Bitmap landscape_bit;
 
         //======================================
@@ -29,6 +26,12 @@ namespace GameEngine
         List<Building> cities = new List<Building>();
 
         //======================================
+        //YOU LOSE
+
+        Font loseFont;
+        Rectanglef rec_lose = new Rectanglef(Alignment.Y.Up + 50, Alignment.X.Center, 200, 50);
+
+        //======================================
         //ERROR HANDLING
 
         Font errorFontM;
@@ -36,27 +39,15 @@ namespace GameEngine
         Rectanglef rec_errorM = new Rectanglef(10, 10, 360, 20);
         Rectanglef rec_error = new Rectanglef(10, 50, 700, 70);
         public Exception error_reason;
+        //Remove parts of the exception to clarify
         string err_pattern = @"(at )(.)+in.(C:\\(.)+\\(.)+\.([a-zA-Z]){1,3}):(line).([0-9])+";
         int listError = 0;
-            
+
         //======================================
         public override void GameStart()
         {
             string fontName = "Minecraftia";
             float fontSize = 12;
-
-            using (System.Drawing.Font fontTester = new System.Drawing.Font(
-                   fontName,
-                   fontSize,
-                   System.Drawing.FontStyle.Regular,
-                   System.Drawing.GraphicsUnit.Pixel))
-            {
-                if (!(fontTester.Name == fontName))
-                {
-                    Registers.gameState = GameState.Error;
-                    error_reason = new Exception("The font 'Minecraftia' is not installed on this machine!");
-                }
-            }
 
             //Static
             rec_landscape = new Rectanglef(LandscapeX, LandscapeY, LandscapeScale, LandscapeScale);
@@ -72,13 +63,14 @@ namespace GameEngine
                 cities.Add(new Building(this, i));
                 //Console.WriteLine(string.Format("{0}. X: {1} Y: {2} W: {3} H: {4}", i, cities[i].GetX(), cities[i].GetY(), cities[i].GetWidth(), cities[i].GetHeight()));
                 enemySpawner.InitTargets(new Vector2f(
-                    cities[i].GetX() + cities[i].GetWidth() * 0.5f, 
+                    cities[i].GetX() + cities[i].GetWidth() * 0.5f,
                     (float)cities[i].GetY()));
             }
             try
             {
                 errorFontM = new Font("Minecraftia", 26f);
                 errorFont = new Font("Minecraftia", 22f);
+                loseFont = new Font("American Captain", 28f);
             }
             catch (Exception e)
             {
@@ -112,6 +104,7 @@ namespace GameEngine
             if (landscape_bit != null) landscape_bit.Dispose();
             if (errorFont != null) errorFont.Dispose();
             if (errorFontM != null) errorFontM.Dispose();
+            if (loseFont != null) loseFont.Dispose();
         }
 
         public override void Update()
@@ -222,7 +215,7 @@ namespace GameEngine
                         //Skip over other color data (G & B of RGB)
                         ij = ij + 2;
                     }
-                    
+
                 }
                 GAME_ENGINE.SetScale(8.5f, 8);
                 GAME_ENGINE.DrawBitmap(landscape_bit, new Vector2f((float)(Registers.ScreenWidth * 0.5 - landscape_bit.GetWidth() * 4 - 0.025 * Registers.ScreenWidth), (float)(Registers.ScreenHeight * 0.5 - landscape_bit.GetHeight() * 4 + 0.46 * Registers.ScreenHeight)));
@@ -248,7 +241,7 @@ namespace GameEngine
             string err = error_reason.ToString();
             //GAME_ENGINE.DrawString(errorFont, string.Format("{0}", Regex.Replace(err, err_pattern, "")), rec_error);
             GAME_ENGINE.DrawString(errorFont, string.Format("{0}", err), rec_error);
-            
+
         }
         public void ReadFont()
         {
@@ -284,12 +277,13 @@ namespace GameEngine
             return cities;
         }
 
-
-        //Old exception handler
-        public void HandleException(Exception ex)
+        /// <summary>
+        /// Returns amount of buildings destroyed
+        /// </summary>
+        /// <returns>int</returns>
+        public int GetDestroyedAmount()
         {
-            Registers.gameState = GameState.Error;
-            error_reason = ex;
+            return destroyedCities;
         }
     }
 }
