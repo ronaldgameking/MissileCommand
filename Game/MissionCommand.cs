@@ -46,9 +46,6 @@ namespace GameEngine
         //======================================
         public override void GameStart()
         {
-            string fontName = "Minecraftia";
-            float fontSize = 12;
-
             //Static
             rec_landscape = new Rectanglef(LandscapeX, LandscapeY, LandscapeScale, LandscapeScale);
             rec_pausemenu = new Rectanglef(Alignment.X.Center - PausemenuScale * 2, Registers.ScreenHeight * 0.5f + PausemenuScale, PausemenuScale, PausemenuScale);
