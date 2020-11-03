@@ -15,6 +15,7 @@ namespace GameEngine
         int LandscapeScale = 8;
         int Pausemenu_line = 0;
         int PausemenuScale = 8;
+        int destroyedCities = 0;
         Rectanglef rec_landscape;
         Rectanglef rec_pausemenu;
         Rectanglef rec_crosshair = new Rectanglef(Registers.CrosshairX, Registers.CrosshairY, 15, 15);
@@ -107,10 +108,10 @@ namespace GameEngine
 
         public override void GameEnd()
         {
+            //Safety checks before disposing
             if (landscape_bit != null) landscape_bit.Dispose();
             if (errorFont != null) errorFont.Dispose();
             if (errorFontM != null) errorFontM.Dispose();
-            //workerThread.Abort();
         }
 
         public override void Update()
@@ -167,6 +168,7 @@ namespace GameEngine
             if (GAME_ENGINE.GetKeyDown(Key.F2))
             {
                 //Was a screenshot idea
+                int fghj = 0;
             }
         }
 
@@ -177,7 +179,10 @@ namespace GameEngine
             {
                 GAME_ENGINE.SetBackgroundColor(0, 0, 0);
                 GAME_ENGINE.SetColor(0, 0, 0);
-
+                if (destroyedCities == 6)
+                {
+                    Registers.gameState = GameState.Stopped;
+                }
                 if (Registers.gameState == GameState.Paused)
                 {
                     int h = 0;
@@ -217,6 +222,7 @@ namespace GameEngine
                         //Skip over other color data (G & B of RGB)
                         ij = ij + 2;
                     }
+                    
                 }
                 GAME_ENGINE.SetScale(8.5f, 8);
                 GAME_ENGINE.DrawBitmap(landscape_bit, new Vector2f((float)(Registers.ScreenWidth * 0.5 - landscape_bit.GetWidth() * 4 - 0.025 * Registers.ScreenWidth), (float)(Registers.ScreenHeight * 0.5 - landscape_bit.GetHeight() * 4 + 0.46 * Registers.ScreenHeight)));
@@ -265,6 +271,7 @@ namespace GameEngine
         public void RegisterDestroyedBuilding(Building reg)
         {
             cities[cities.IndexOf(reg)] = null;
+            destroyedCities++;
 
         }
 

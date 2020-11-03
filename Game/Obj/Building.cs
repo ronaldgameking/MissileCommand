@@ -72,6 +72,7 @@ namespace GameEngine
 
         public void Nuke()
         {
+            gm.RegisterDestroyedBuilding(this);
             Dispose();
         }
 
