@@ -1,9 +1,12 @@
 /.vs
 /bin
 /obj
-/CanvasEngine.csproj.user
 /Documentation
-/.editorconfig
 /packages
+/.editorconfig
+/CanvasEngine.csproj.user
 /script.txt
-/MDA_framework.png 
+/plans.txt
+/MDA_framework.png
+/EnemyMissleDia.png
+/GameManagerDia.png
