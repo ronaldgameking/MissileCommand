@@ -74,25 +74,6 @@ namespace GameEngine
                 Registers.gameState = GameState.Error;
                 error_reason = e;
             }
-
-            //Some pointer stuff, useless
-            unsafe
-            {
-                int x = 10;
-                int y = 20;
-                int* ptr1 = &x;
-                int* ptr2 = &y;
-                Console.WriteLine((int)ptr1);
-                Console.WriteLine((int)ptr2);
-                Console.WriteLine(*ptr1);
-                Console.WriteLine(*ptr2);
-            }
-
-            //ReadFont();
-            //worker = new ThreadStart(ReadFont);
-            //workerThread = new Thread(worker);
-            //workerThread.Start();
-
         }
 
         public override void GameEnd()
