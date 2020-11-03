@@ -1,0 +1,355 @@
+<Project>
+  <Name>MissleCommander</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>GameManager</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>GameManager</Name>
+        <Access>Public</Access>
+        <Location left="686" top="239" />
+        <Size width="162" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int LandscapeX</Member>
+        <Member type="Field">int LandscapeY</Member>
+        <Member type="Field">int LandscapeScale</Member>
+        <Member type="Field">Rectanglef rec_landscape</Member>
+        <Member type="Field">List&lt;Missle&gt; misLaunch</Member>
+        <Member type="Field">List&lt;Explosion&gt; expld</Member>
+        <Member type="Method">public override void GameStart()</Member>
+        <Member type="Method">public override void GameEnd()</Member>
+        <Member type="Method">public override void Update()</Member>
+        <Member type="Method">public override void Paint()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Missle</Name>
+        <Access>Public</Access>
+        <Location left="1565" top="331" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">GameManager gameManager</Member>
+        <Member type="Constructor">public Missle()</Member>
+        <Member type="Method">public void GameStart()</Member>
+        <Member type="Method">public void GameEnd()</Member>
+        <Member type="Method">public void Update()</Member>
+        <Member type="Method">public void DrawMissle()</Member>
+        <Member type="Method">public void Explode()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Explosion</Name>
+        <Access>Public</Access>
+        <Location left="1845" top="331" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Vector2f spawnPoint</Member>
+        <Member type="Field">int expl_size</Member>
+        <Member type="Field">float expl_timer</Member>
+        <Member type="Field">float expl_growspeed</Member>
+        <Member type="Field">Color[] colors</Member>
+        <Member type="Field">float deltaTime</Member>
+        <Member type="Constructor">public Explosion()</Member>
+        <Member type="Method">public void DrawExplosion()</Member>
+        <Member type="Method">public override void Update()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MissleLauncher</Name>
+        <Access>Public</Access>
+        <Location left="1255" top="51" />
+        <Size width="162" height="264" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">GameManager gameManager</Member>
+        <Member type="Field">Vector2f targetPos</Member>
+        <Member type="Field">Vector2f startPos</Member>
+        <Member type="Field">float deltaTime</Member>
+        <Member type="Field">int Ammo</Member>
+        <Member type="Constructor">public MissleLauncher()</Member>
+        <Member type="Method">public override void GameStart()</Member>
+        <Member type="Method">public override void GameEnd()</Member>
+        <Member type="Method">public override void Update()</Member>
+        <Member type="Method">public override void DrawMissleLauncher()</Member>
+        <Member type="Method">public void Shoot()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Dit is niet erg up-to-date, zie andere diagrammen voor meer info</Text>
+        <Location left="1144" top="535" />
+        <Size width="274" height="153" />
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1230</X>
+          <Y>143</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1752</X>
+          <Y>508</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1815</X>
+          <Y>347</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1230</X>
+          <Y>297</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>887</X>
+          <Y>367</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1462</X>
+          <Y>302</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1540</X>
+          <Y>355</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>902</X>
+          <Y>387</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>EnemyMissle</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>EnemySpawner</Name>
+        <Access>Public</Access>
+        <Location left="481" top="236" />
+        <Size width="162" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">GameManager gameManager</Member>
+        <Member type="Field">Random rnng = new Random()</Member>
+        <Member type="Field">List&lt;EnemyMissle&gt; emissles</Member>
+        <Member type="Field">float interval</Member>
+        <Member type="Field">float timeLeft</Member>
+        <Member type="Field">Vector2f[] targets = new Vector2f[6]</Member>
+        <Member type="Constructor">public EnemySpawner()</Member>
+        <Member type="Method">public override void GameStart()</Member>
+        <Member type="Method">public override void Update()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>EnemyMissle</Name>
+        <Access>Public</Access>
+        <Location left="764" top="236" />
+        <Size width="162" height="281" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">GameManager gameManager</Member>
+        <Member type="Field">Rectangelf rec_base_missle = new Rectanglef(Alignment.X.Center + 10, Alignment.Y.Up, 5, 15)</Member>
+        <Member type="Field">float misLocX</Member>
+        <Member type="Field">float misLocY</Member>
+        <Member type="Field">Vector2f orgin</Member>
+        <Member type="Field">vector2f dest</Member>
+        <Member type="Field">float curTime</Member>
+        <Member type="Field">Explosion explM</Member>
+        <Member type="Constructor">public EnemyMissle(GameManager gm, Vector2f desti)</Member>
+        <Member type="Constructor">public EnemyMissle(GameManager gm, float destiX, float destiY)</Member>
+        <Member type="Destructor">~EnemyMissle()</Member>
+        <Member type="Method">public override void Paint()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GameManager</Name>
+        <Access>Public</Access>
+        <Location left="275" top="63" />
+        <Size width="162" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int LandscapeX</Member>
+        <Member type="Field">int LandscapeY</Member>
+        <Member type="Field">int LandscapeScale</Member>
+        <Member type="Field">Rectanglef rec_landscape</Member>
+        <Member type="Field">List&lt;Missle&gt; misLaunch</Member>
+        <Member type="Field">List&lt;Explosion&gt; expld</Member>
+        <Member type="Method">public override void GameStart()</Member>
+        <Member type="Method">public override void GameEnd()</Member>
+        <Member type="Method">public override void Update()</Member>
+        <Member type="Method">public override void Paint()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Explosion</Name>
+        <Access>Public</Access>
+        <Location left="1029" top="236" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Vector2f spawnPoint</Member>
+        <Member type="Field">int expl_size</Member>
+        <Member type="Field">float expl_timer</Member>
+        <Member type="Field">float expl_growspeed</Member>
+        <Member type="Field">Color[] colors</Member>
+        <Member type="Field">float deltaTime</Member>
+        <Member type="Constructor">public Explosion()</Member>
+        <Member type="Method">public void DrawExplosion()</Member>
+        <Member type="Method">public override void Update()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>670</X>
+          <Y>453</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>736</X>
+          <Y>453</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>456</X>
+          <Y>416</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Building</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>GameManager</Name>
+        <Access>Public</Access>
+        <Location left="162" top="175" />
+        <Size width="195" height="375" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int LandscapeX</Member>
+        <Member type="Field">int LandscapeY</Member>
+        <Member type="Field">int LandscapeScale</Member>
+        <Member type="Field">Rectanglef rec_landscape</Member>
+        <Member type="Field">List&lt;Missle&gt; misLaunch</Member>
+        <Member type="Field">List&lt;Explosion&gt; expld</Member>
+        <Member type="Field">List&lt;Building&gt; cities</Member>
+        <Member type="Method">public override void GameStart()</Member>
+        <Member type="Method">public override void GameEnd()</Member>
+        <Member type="Method">public override void Update()</Member>
+        <Member type="Method">public override void Paint()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Building</Name>
+        <Access>Public</Access>
+        <Location left="510" top="175" />
+        <Size width="272" height="336" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">GameManager gameManager</Member>
+        <Member type="Field">Bitmap city_bpm</Member>
+        <Member type="Field">int cityIndex</Member>
+        <Member type="Field">int Width</Member>
+        <Member type="Field">int Height</Member>
+        <Member type="Field">float resize</Member>
+        <Member type="Field">List&lt;Vector2f&gt; cityPos</Member>
+        <Member type="Constructor">public Building(GameManager gameManager, int indx)</Member>
+        <Member type="Method">public override void Paint()</Member>
+        <Member type="Method">public void Nuke()</Member>
+        <Member type="Method">public float GetX()</Member>
+        <Member type="Method">public float GetY()</Member>
+        <Member type="Method">public int GetWidth()</Member>
+        <Member type="Method">public int GetHeight()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>EnemySpawner</Name>
+        <Access>Public</Access>
+        <Location left="1100" top="284" />
+        <Size width="192" height="305" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">GameManager gameManager</Member>
+        <Member type="Field">Random rnng = new Random()</Member>
+        <Member type="Field">List&lt;EnemyMissle&gt; emissles</Member>
+        <Member type="Field">float interval</Member>
+        <Member type="Field">float timeLeft</Member>
+        <Member type="Field">List&lt;Vector2f&gt; targets</Member>
+        <Member type="Constructor">public EnemySpawner()</Member>
+        <Member type="Method">public override void GameStart()</Member>
+        <Member type="Method">public override void Update()</Member>
+        <Member type="Method">public void InitTargets(Vector2f loc)</Member>
+        <Member type="Method">public void EMissileDetonate(EnemyMissle demEMissile)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>389</X>
+          <Y>344</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>481</X>
+          <Y>370</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Dependency" first="1" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

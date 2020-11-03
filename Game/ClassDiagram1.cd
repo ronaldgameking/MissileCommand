@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameEngine.MissileLauncher" Collapsed="true">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEQAAACAAAAAAAgABAAAAAABAQAAABAAAAAAAABoAAA=</HashCode>
+      <FileName>Game\Obj\MissleLauncher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameEngine.Missile" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AUAAAAAAAAAAIAAAAAAQJAAAABAACEAAAAAwAAAIAAA=</HashCode>
+      <FileName>Game\Obj\Missle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.175" />
+  </Class>
+  <Class Name="GameEngine.GameManager">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQBAQACiCCCKIQBAAAAAAAAAAAAAAAAAA4QABEoAJA=</HashCode>
+      <FileName>Game\MissionCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameEngine.EnemyMissile" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AUAAAQACAAAAAAAAAAAQIAAAABAACAAAAAAwAAAIAIA=</HashCode>
+      <FileName>Game\Obj\EnemyMissle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GameEngine.EnemySpawner" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEQEAAAAICACAAAAKAAAAACAAAAAAAAAAARAAQAAAAA=</HashCode>
+      <FileName>Game\Obj\EnemySpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameEngine.Explosion" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAIAAAgAAAAAAAAAAAAQAAAAAAAAAAAAIAAIABA=</HashCode>
+      <FileName>Game\Obj\Explosion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameEngine.AbstractGame" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Engine\AbstractGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameEngine.GameObject" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACACAAABEAAAAAABAAAAAAAQIAAAAIAIAAA=</HashCode>
+      <FileName>Engine\GameEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

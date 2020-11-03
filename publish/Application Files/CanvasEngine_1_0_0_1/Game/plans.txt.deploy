@@ -1,0 +1,3 @@
+﻿- Cities: fixed locations												27%
+- Enemy Missiles: spawn at random (maybe preset) locations				100%
+- Enemy Missiles: decide a random city and go towards it				0%
