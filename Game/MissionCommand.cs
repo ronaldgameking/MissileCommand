@@ -29,7 +29,7 @@ namespace GameEngine
         //YOU LOSE
 
         Font loseFont;
-        Rectanglef rec_lose = new Rectanglef(Alignment.Y.Up + 50, Alignment.X.Center, 200, 50);
+        Rectanglef rec_lose = new Rectanglef(Alignment.X.Center - 200, Registers.ScreenHeight * 0.5f - 50, 300, 50);
 
         //======================================
         //ERROR HANDLING
@@ -70,7 +70,7 @@ namespace GameEngine
             {
                 errorFontM = new Font("Minecraftia", 26f);
                 errorFont = new Font("Minecraftia", 22f);
-                loseFont = new Font("American Captain", 28f);
+                loseFont = new Font("American Captain", 64f);
             }
             catch (Exception e)
             {
@@ -161,7 +161,7 @@ namespace GameEngine
             if (GAME_ENGINE.GetKeyDown(Key.F2))
             {
                 //Was a screenshot idea
-                int fghj = 0;
+                destroyedCities = 6;
             }
         }
 
@@ -222,6 +222,11 @@ namespace GameEngine
                 GAME_ENGINE.SetScale(1, 1);
 
                 GAME_ENGINE.SetColor(255, 255, 255);
+                if (destroyedCities == 6)
+                {
+                    loseFont.SetHorizontalAlignment(Font.Alignment.Center);
+                    GAME_ENGINE.DrawString(loseFont, "You lose", rec_lose);
+                }
 
                 rec_landscape.X = LandscapeX;
                 rec_landscape.Y = LandscapeY;
