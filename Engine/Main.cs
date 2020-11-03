@@ -26,6 +26,7 @@ namespace GameEngine
     }
     public class Registers
     {
+        //Check if it's run in debug configuration (compiler
 #if (DEBUG)
         public static string version = "0.8.21 | DEV CHANNEL";
 #else
