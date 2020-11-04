@@ -65,9 +65,4 @@ namespace GameEngine
         Stopped,
         Error
     }
-
-    public struct MyStruct
-    {
-
-    }
 }
