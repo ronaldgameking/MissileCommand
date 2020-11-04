@@ -39,7 +39,7 @@ namespace GameEngine
                 //}
                 //else
                 //{
-                    nukeTown = gm.GetBuildings()[gm.GetBuildings().IndexOf(hitBuilding)];
+                nukeTown = gm.GetBuildings()[gm.GetBuildings().IndexOf(hitBuilding)];
                 //}
             }
             catch (Exception e)

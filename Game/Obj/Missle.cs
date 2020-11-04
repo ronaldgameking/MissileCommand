@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace GameEngine
 {
     public class Missile : GameObject, IDisposable
-    {     
+    {
 
         GameManager gameManager;
         MissileLauncher missileLauncher;
@@ -25,7 +24,6 @@ namespace GameEngine
             misLocY = Alignment.Y.Down - 20;
             orgin = new Vector2f(misLocX, misLocY);
             dest = desti;
-            Console.WriteLine("Missile created");
         }
 
         public Missile(GameManager gm, MissileLauncher ml, float destiX, float destiY)
@@ -36,7 +34,6 @@ namespace GameEngine
             misLocY = Alignment.Y.Down - 80;
             orgin = new Vector2f(misLocX, misLocY);
             dest = new Vector2f(destiX, destiY);
-            Console.WriteLine("Missile created");
         }
 
         ~Missile()
@@ -46,7 +43,7 @@ namespace GameEngine
         public override void Paint()
         {
             if (Registers.gameState == GameState.Running)
-            {                
+            {
                 //rec_base_missile.Y = misLocY;
                 //rec_base_missile.X = misLocX;
                 GAME_ENGINE.SetColor(0, 255, 0);
@@ -54,7 +51,7 @@ namespace GameEngine
                 //GAME_ENGINE.SetColor(0, 0, 0);
                 //misLocY -= 75 * GAME_ENGINE.GetDeltaTime();
 
-                drawHere = Utils.Lerp2D(orgin, dest, curTime );
+                drawHere = Utils.Lerp2D(orgin, dest, curTime);
                 //Console.WriteLine(string.Format("X: {0}, Y: {1}", drawHere.X, drawHere.Y));
                 GAME_ENGINE.FillRectangle(drawHere.X, drawHere.Y, 5, 5);
                 //Console.WriteLine(string.Format("dest X: {0} dest Y: {1} drawHere X: {2}, drawhere Y: {3}", dest.X, dest.Y, drawHere.X, drawHere.Y)); 
@@ -73,7 +70,7 @@ namespace GameEngine
                 }
             }
         }
-        public Vector2f MissileLoc()
+        public Vector2f GetLocation()
         {
             return drawHere;
         }

@@ -22,7 +22,6 @@ namespace GameEngine
             gameManager = gm;
             //targets.Add(new Vector2f(Alignment.X.Center + 10, Alignment.Y.Down - 80));
             //emis = new EnemyMissile(gameManager, new Vector2f(Alignment.X.Center, Alignment.Y.Center));
-            Console.WriteLine("Enemy spawner crafted");
         }
 
         ~EnemySpawner()
@@ -69,6 +68,15 @@ namespace GameEngine
         public void InitTargets(Vector2f loc)
         {
             targets.Add(loc);
+        }
+
+        public List<EnemyMissile> GetEnemyMissiles()
+        {
+            return emissiles;
+        }
+        public EnemyMissile GetEnemyMissile(int at)
+        {
+            return emissiles[at];
         }
 
         public override void Dispose()

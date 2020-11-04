@@ -22,14 +22,11 @@ namespace GameEngine
         {
             gameManager = gm;
             enemySpawner = es;
-            Console.WriteLine("+-+ X: {0} Y: {1}", destination.X, destination.Y);
             misLocX = Alignment.X.Center + rec_base_missile.Width * 2 + 2.5f;
             misLocY = Alignment.Y.Up + 105;
             targetID = tar;
-            Console.WriteLine(string.Format("Target: {0}", tar));
             orgin = orginLoc;
             dest = destination;
-            Console.WriteLine("Enemy Missile created");
         }
 
         public EnemyMissile(GameManager gm, EnemySpawner es, float orginLocX, float orginLocY, float destiX, float destiY, int tar)
@@ -40,12 +37,6 @@ namespace GameEngine
             misLocY = Alignment.Y.Up + 105;
             orgin = new Vector2f(orginLocX, orginLocY);
             dest = new Vector2f(destiX, destiY);
-            Console.WriteLine("Enemy Missile created");
-        }
-
-        ~EnemyMissile()
-        {
-            Console.WriteLine("Enemy Missile destroyed");
         }
         public override void Paint()
         {
@@ -68,13 +59,12 @@ namespace GameEngine
                 //if (drawHere.X >= dest.X && drawHere.Y >= dest.Y && drawHere.X <= (dest.X + 15) && drawHere.Y <= (dest.Y + 15))
                 {
                     if (targetID <= gameManager.GetBuildings().Count - 1) explM = new Explosion(gameManager, enemySpawner, this, drawHere, gameManager.GetBuildings()[targetID]);
-                    Console.WriteLine("========= I have reached my desti");
                     enemySpawner.EMissileDetonate(this);
                     Dispose();
                 }
                 curTime += GAME_ENGINE.GetDeltaTime() / 2.5f;
                 if (Utils.Distance(drawHere, new Vector2f(Alignment.X.Left, Alignment.Y.Up)) <= 0 && Utils.Distance(drawHere, new Vector2f(Alignment.X.Right, Alignment.Y.Down)) <= 0)
-                {
+                { 
                     enemySpawner.EMissileDetonate(this);
                     Dispose();
                 }

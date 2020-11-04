@@ -12,6 +12,7 @@ namespace GameEngine
         int Width;
         int Height;
         float resize = 1.0f;
+        bool alreadyNuked = false;
         //========================================
 
         List<object> properties = new List<object>();
@@ -35,9 +36,6 @@ namespace GameEngine
             cityPos.Add(new Vector2f(Alignment.X.Center + 155, Alignment.Y.Down - 50));
             cityPos.Add(new Vector2f(Alignment.X.Right - 325, Alignment.Y.Down - 50));
             cityPos.Add(new Vector2f(Alignment.X.Right - 172, Alignment.Y.Down - 50));
-            //foreach (Vector2f)
-
-            Console.WriteLine("City built!");
         }
 
         public override void Paint()
@@ -72,6 +70,11 @@ namespace GameEngine
 
         public void Nuke()
         {
+            if (alreadyNuked == false)
+            {
+                gm.RegisterDestroyedBuilding(this);
+                alreadyNuked = true;
+            }
             Dispose();
         }
 

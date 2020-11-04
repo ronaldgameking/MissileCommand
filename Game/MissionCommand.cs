@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GameEngine
 {
@@ -15,10 +12,11 @@ namespace GameEngine
         int LandscapeScale = 8;
         int Pausemenu_line = 0;
         int PausemenuScale = 8;
+        int destroyedCities = 0;
         Rectanglef rec_landscape;
         Rectanglef rec_pausemenu;
         Rectanglef rec_crosshair = new Rectanglef(Registers.CrosshairX, Registers.CrosshairY, 15, 15);
-        Vector2f crossHair = new Vector2f(Registers.ScreenWidth / 0.5f, Registers.ScreenHeight * 0.5f);
+        Vector2f crossHair = new Vector2f(Registers.ScreenWidth * 0.5f, Registers.ScreenHeight * 0.5f);
         Bitmap landscape_bit;
 
         //======================================
@@ -28,6 +26,12 @@ namespace GameEngine
         List<Building> cities = new List<Building>();
 
         //======================================
+        //YOU LOSE
+
+        Font loseFont;
+        Rectanglef rec_lose = new Rectanglef(Alignment.X.Center - 150, Registers.ScreenHeight * 0.5f - 50, 300, 50);
+
+        //======================================
         //ERROR HANDLING
 
         Font errorFontM;
@@ -35,28 +39,13 @@ namespace GameEngine
         Rectanglef rec_errorM = new Rectanglef(10, 10, 360, 20);
         Rectanglef rec_error = new Rectanglef(10, 50, 700, 70);
         public Exception error_reason;
+        //Remove parts of the exception to clarify
         string err_pattern = @"(at )(.)+in.(C:\\(.)+\\(.)+\.([a-zA-Z]){1,3}):(line).([0-9])+";
         int listError = 0;
-            
+
         //======================================
         public override void GameStart()
         {
-            string fontName = "Minecraftia";
-            float fontSize = 12;
-
-            using (System.Drawing.Font fontTester = new System.Drawing.Font(
-                   fontName,
-                   fontSize,
-                   System.Drawing.FontStyle.Regular,
-                   System.Drawing.GraphicsUnit.Pixel))
-            {
-                if (!(fontTester.Name == fontName))
-                {
-                    Registers.gameState = GameState.Error;
-                    error_reason = new Exception("The font 'Minecraftia' is not installed on this machine!");
-                }
-            }
-
             //Static
             rec_landscape = new Rectanglef(LandscapeX, LandscapeY, LandscapeScale, LandscapeScale);
             rec_pausemenu = new Rectanglef(Alignment.X.Center - PausemenuScale * 2, Registers.ScreenHeight * 0.5f + PausemenuScale, PausemenuScale, PausemenuScale);
@@ -71,46 +60,29 @@ namespace GameEngine
                 cities.Add(new Building(this, i));
                 //Console.WriteLine(string.Format("{0}. X: {1} Y: {2} W: {3} H: {4}", i, cities[i].GetX(), cities[i].GetY(), cities[i].GetWidth(), cities[i].GetHeight()));
                 enemySpawner.InitTargets(new Vector2f(
-                    cities[i].GetX() + cities[i].GetWidth() * 0.5f, 
+                    cities[i].GetX() + cities[i].GetWidth() * 0.5f,
                     (float)cities[i].GetY()));
             }
             try
             {
                 errorFontM = new Font("Minecraftia", 26f);
                 errorFont = new Font("Minecraftia", 22f);
+                loseFont = new Font("American Captain", 64f);
             }
             catch (Exception e)
             {
                 Registers.gameState = GameState.Error;
                 error_reason = e;
             }
-
-            //Some pointer stuff, useless
-            unsafe
-            {
-                int x = 10;
-                int y = 20;
-                int* ptr1 = &x;
-                int* ptr2 = &y;
-                Console.WriteLine((int)ptr1);
-                Console.WriteLine((int)ptr2);
-                Console.WriteLine(*ptr1);
-                Console.WriteLine(*ptr2);
-            }
-
-            //ReadFont();
-            //worker = new ThreadStart(ReadFont);
-            //workerThread = new Thread(worker);
-            //workerThread.Start();
-
         }
 
         public override void GameEnd()
         {
+            //Safety checks before disposing
             if (landscape_bit != null) landscape_bit.Dispose();
             if (errorFont != null) errorFont.Dispose();
             if (errorFontM != null) errorFontM.Dispose();
-            //workerThread.Abort();
+            if (loseFont != null) loseFont.Dispose();
         }
 
         public override void Update()
@@ -164,9 +136,35 @@ namespace GameEngine
                 Registers.gameState = GameState.Running;
             }
 
+            if (GAME_ENGINE.GetKeyDown(Key.R))
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    cities[i].Dispose();
+                }
+                GC.Collect();
+
+                for (int i = 0; i < 6; i++)
+                {
+                    cities.Add(new Building(this, i));
+                    //Console.WriteLine(string.Format("{0}. X: {1} Y: {2} W: {3} H: {4}", i, cities[i].GetX(), cities[i].GetY(), cities[i].GetWidth(), cities[i].GetHeight()));
+                    enemySpawner.InitTargets(new Vector2f(
+                        cities[i].GetX() + cities[i].GetWidth() * 0.5f,
+                        (float)cities[i].GetY()));
+                }
+            }
+
+
             if (GAME_ENGINE.GetKeyDown(Key.F2))
             {
                 //Was a screenshot idea
+                destroyedCities = 6;
+            }
+            if (GAME_ENGINE.GetKeyDown(Key.F3))
+            {
+                //Was a screenshot idea
+                destroyedCities = 0;
+                Registers.gameState = GameState.Running;
             }
         }
 
@@ -177,7 +175,10 @@ namespace GameEngine
             {
                 GAME_ENGINE.SetBackgroundColor(0, 0, 0);
                 GAME_ENGINE.SetColor(0, 0, 0);
-
+                if (destroyedCities == 6)
+                {
+                    Registers.gameState = GameState.Stopped;
+                }
                 if (Registers.gameState == GameState.Paused)
                 {
                     int h = 0;
@@ -217,12 +218,20 @@ namespace GameEngine
                         //Skip over other color data (G & B of RGB)
                         ij = ij + 2;
                     }
+
                 }
                 GAME_ENGINE.SetScale(8.5f, 8);
                 GAME_ENGINE.DrawBitmap(landscape_bit, new Vector2f((float)(Registers.ScreenWidth * 0.5 - landscape_bit.GetWidth() * 4 - 0.025 * Registers.ScreenWidth), (float)(Registers.ScreenHeight * 0.5 - landscape_bit.GetHeight() * 4 + 0.46 * Registers.ScreenHeight)));
                 GAME_ENGINE.SetScale(1, 1);
 
                 GAME_ENGINE.SetColor(255, 255, 255);
+                if (destroyedCities == 6)
+                {
+                    loseFont.SetHorizontalAlignment(Font.Alignment.Center);
+                    GAME_ENGINE.SetColor(190, 0, 0);
+                    GAME_ENGINE.DrawString(loseFont, "You lose", rec_lose);
+                    GAME_ENGINE.SetColor(0, 0, 0);
+                }
 
                 rec_landscape.X = LandscapeX;
                 rec_landscape.Y = LandscapeY;
@@ -242,7 +251,7 @@ namespace GameEngine
             string err = error_reason.ToString();
             //GAME_ENGINE.DrawString(errorFont, string.Format("{0}", Regex.Replace(err, err_pattern, "")), rec_error);
             GAME_ENGINE.DrawString(errorFont, string.Format("{0}", err), rec_error);
-            
+
         }
         public void ReadFont()
         {
@@ -264,7 +273,8 @@ namespace GameEngine
 
         public void RegisterDestroyedBuilding(Building reg)
         {
-            cities[cities.IndexOf(reg)] = null;
+            //cities[cities.IndexOf(reg)] = null;
+            destroyedCities++;
 
         }
 
@@ -277,12 +287,18 @@ namespace GameEngine
             return cities;
         }
 
-
-        //Old exception handler
-        public void HandleException(Exception ex)
+        /// <summary>
+        /// Returns amount of buildings destroyed
+        /// </summary>
+        /// <returns>int</returns>
+        public int GetDestroyedAmount()
         {
-            Registers.gameState = GameState.Error;
-            error_reason = ex;
+            return destroyedCities;
+        }
+
+        public EnemySpawner RefEnemySpawner()
+        {
+            return enemySpawner;
         }
     }
 }

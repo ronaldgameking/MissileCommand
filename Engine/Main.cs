@@ -26,10 +26,11 @@ namespace GameEngine
     }
     public class Registers
     {
+        //Check if it's run in debug configuration (compiler
 #if (DEBUG)
-        public static string version = "0.8.18 | DEV CHANNEL";
+        public static string version = "0.8.24 | DEV CHANNEL";
 #else
-        public static string version = "0.8.16 | PROD CHANNEL";
+        public static string version = "0.8.34 | PROD CHANNEL";
 #endif
         public static GameState gameState = GameState.Running;
         public static readonly int ScreenWidth = 1280;
