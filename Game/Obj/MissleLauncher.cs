@@ -79,14 +79,15 @@ namespace GameEngine
         /// </summary>
         public void ForwardCollision()
         {
-            //get the missles
-            List<EnemyMissile> colCheckEMis = gameManager.RefEnemySpawner().GetEnemyMissile();
+            //get the enemy missles
+            List<EnemyMissile> colCheckEMis = gameManager.RefEnemySpawner().GetEnemyMissiles();
 
             for (int i = 0; i < missiles.Count; i++)
             {
+                Vector2f misloc = missiles[i].GetLocation();
                 for (int j = 0; j < colCheckEMis.Count; j++)
                 {
-                    Vector2f misloc = missiles[i].MissileLoc();
+                    float distance = Utils.Distance(misloc, colCheckEMis[j].GetLocation());
 
                 }
             }

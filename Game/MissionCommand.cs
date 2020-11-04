@@ -164,6 +164,7 @@ namespace GameEngine
             {
                 //Was a screenshot idea
                 destroyedCities = 0;
+                Registers.gameState = GameState.Running;
             }
         }
 

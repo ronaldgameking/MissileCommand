@@ -73,7 +73,7 @@ namespace GameEngine
                 }
             }
         }
-        public Vector2f MissileLoc()
+        public Vector2f GetLocation()
         {
             return drawHere;
         }
