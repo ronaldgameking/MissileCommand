@@ -84,14 +84,21 @@ namespace GameEngine
                 Vector2f misloc = missiles[i].GetLocation();
                 for (int j = 0; j < colCheckEMis.Count; j++)
                 {
-                    float distance = Utils.Distance(misloc, colCheckEMis[j].GetLocation());
-                    if (distance <= 10)
+                    if (Utils.Distance(misloc, colCheckEMis[j].GetLocation()) <= 200)
                     {
                         Console.WriteLine("+++ missle hit!");
                         gameManager.RefEnemySpawner().EMissileDetonate(colCheckEMis[j]);
+                    } else
+                    {
+                        Console.WriteLine(Utils.Distance(misloc, colCheckEMis[j].GetLocation()));
                     }
                 }
             }
+        }
+
+        public List<Missile> GetMissiles()
+        {
+            return missiles;
         }
     }
 }

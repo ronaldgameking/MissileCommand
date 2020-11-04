@@ -138,20 +138,31 @@ namespace GameEngine
 
             if (GAME_ENGINE.GetKeyDown(Key.R))
             {
-                for (int i = 0; i < 6; i++)
+                Registers.CrosshairX = Alignment.X.Center;
+                for (int i = 0; i < missileLauncher.GetMissiles().Count; i++)
                 {
-                    cities[i].Dispose();
+                    missileLauncher.GetMissiles()[i].Dispose();
                 }
-                GC.Collect();
+                missileLauncher.GetMissiles().Clear();
 
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < enemySpawner.GetEnemyMissiles().Count; i++)
+                {
+                    enemySpawner.GetEnemyMissile(i).Dispose();
+                }
+
+                missileLauncher = new MissileLauncher(this);
+                enemySpawner = new EnemySpawner(this);
+                cities.Clear(); 
+                for (int i = 0;  i < 6; i++)
                 {
                     cities.Add(new Building(this, i));
-                    //Console.WriteLine(string.Format("{0}. X: {1} Y: {2} W: {3} H: {4}", i, cities[i].GetX(), cities[i].GetY(), cities[i].GetWidth(), cities[i].GetHeight()));
                     enemySpawner.InitTargets(new Vector2f(
                         cities[i].GetX() + cities[i].GetWidth() * 0.5f,
                         (float)cities[i].GetY()));
                 }
+                destroyedCities = 0;
+                Registers.gameState = GameState.Running;
+                GC.Collect();
             }
 
 

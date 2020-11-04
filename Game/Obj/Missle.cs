@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace GameEngine
 {
@@ -73,6 +74,11 @@ namespace GameEngine
         public Vector2f GetLocation()
         {
             return drawHere;
+        }
+
+        public Explosion GetExplosion()
+        {
+            return new Explosion(missileLauncher, this, new Vector2f(0,0));
         }
     }
 }
