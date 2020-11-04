@@ -16,19 +16,17 @@ namespace GameEngine
         public MissileLauncher(GameManager gm)
         {
             gameManager = gm;
-            Console.WriteLine("Missile Launcher created CHIEF!");
         }
 
         public override void Update()
         {
             if (Registers.fireNow == true)
             {
-                try 
-                { 
+                try
+                {
                     mssl = new Missile(gameManager, this, Registers.CrosshairX, Registers.CrosshairY);
                     missiles.Add(mssl);
-                    Console.WriteLine(string.Format("== {0}", missiles.Count));
-                } 
+                }
                 catch (Exception e)
                 {
                     gameManager.error_reason = e;
@@ -51,7 +49,6 @@ namespace GameEngine
 
         public void MissileDetonate(Missile demMissile)
         {
-            Console.WriteLine("Demontated missile");
             if (missiles.Contains(demMissile))
             {
                 missiles.Remove(demMissile);
@@ -88,7 +85,11 @@ namespace GameEngine
                 for (int j = 0; j < colCheckEMis.Count; j++)
                 {
                     float distance = Utils.Distance(misloc, colCheckEMis[j].GetLocation());
-
+                    if (distance <= 10)
+                    {
+                        Console.WriteLine("+++ missle hit!");
+                        gameManager.RefEnemySpawner().EMissileDetonate(colCheckEMis[j]);
+                    }
                 }
             }
         }
