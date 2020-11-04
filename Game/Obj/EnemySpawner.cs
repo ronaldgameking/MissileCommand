@@ -43,7 +43,8 @@ namespace GameEngine
                 if (timeLeft <= 0)
                 {
                     int targ = rng.Next(0, targets.Count);
-                    emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targ], targ);
+                    //emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targ], targ);
+                    emis = new EnemyMissile(gameManager, this, new Vector2f(targets[2].X, 0), targets[2], 2);
                     emissiles.Add(emis);
                     timeLeft = interval;
                 }

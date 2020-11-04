@@ -136,7 +136,7 @@ namespace GameEngine
                 Registers.gameState = GameState.Running;
             }
 
-            if (GAME_ENGINE.GetKeyDown(Key.R))
+            if (GAME_ENGINE.GetKeyDown(Key.R) && Registers.gameState == GameState.Stopped)
             {
                 Registers.CrosshairX = Alignment.X.Center;
                 for (int i = 0; i < missileLauncher.GetMissiles().Count; i++)
@@ -160,9 +160,9 @@ namespace GameEngine
                         cities[i].GetX() + cities[i].GetWidth() * 0.5f,
                         (float)cities[i].GetY()));
                 }
+                GC.Collect();
                 destroyedCities = 0;
                 Registers.gameState = GameState.Running;
-                GC.Collect();
             }
 
 

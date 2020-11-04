@@ -14,8 +14,9 @@ namespace GameEngine
         float misLocY;
         float curTime = 0;
         Vector2f orgin;
-        int targetID;
         Vector2f dest;
+        Vector2f drawHere;
+        int targetID;
         Rectanglef rec_base_missile = new Rectanglef(Alignment.X.Center + 10, Alignment.Y.Up, 5, 5);
 
         public EnemyMissile(GameManager gm, EnemySpawner es, Vector2f orginLoc, Vector2f destination, int tar)
@@ -49,7 +50,7 @@ namespace GameEngine
                 //GAME_ENGINE.SetColor(0, 0, 0);
                 //misLocY -= 75 * GAME_ENGINE.  DeltaTime();
 
-                Vector2f drawHere = Utils.Lerp2D(orgin, dest, curTime/2);
+                drawHere = Utils.Lerp2D(orgin, dest, curTime/2);
                 GAME_ENGINE.FillRectangle(drawHere.X, drawHere.Y, 5, 5);
                 //Console.WriteLine(string.Format("before = {0}", DateTime.Now.Millisecond));
                 //Utils.Distance(1f, 1f, 100f, 100f);
@@ -82,7 +83,7 @@ namespace GameEngine
         /// <returns>Missle coords: <c>Vector2f</c></returns>
         public Vector2f GetLocation()
         {
-            return new Vector2f(misLocX, misLocY);
+            return drawHere;
         }
     }
 }
