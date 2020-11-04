@@ -79,7 +79,17 @@ namespace GameEngine
         /// </summary>
         public void ForwardCollision()
         {
+            //get the missles
+            List<EnemyMissile> colCheckEMis = gameManager.RefEnemySpawner().GetEnemyMissile();
 
+            for (int i = 0; i < missiles.Count; i++)
+            {
+                for (int j = 0; j < colCheckEMis.Count; j++)
+                {
+                    Vector2f misloc = missiles[i].MissileLoc();
+
+                }
+            }
         }
     }
 }

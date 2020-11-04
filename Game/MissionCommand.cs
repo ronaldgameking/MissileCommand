@@ -29,7 +29,7 @@ namespace GameEngine
         //YOU LOSE
 
         Font loseFont;
-        Rectanglef rec_lose = new Rectanglef(Alignment.X.Center - 200, Registers.ScreenHeight * 0.5f - 50, 300, 50);
+        Rectanglef rec_lose = new Rectanglef(Alignment.X.Center - 150, Registers.ScreenHeight * 0.5f - 50, 300, 50);
 
         //======================================
         //ERROR HANDLING
@@ -136,10 +136,34 @@ namespace GameEngine
                 Registers.gameState = GameState.Running;
             }
 
+            if (GAME_ENGINE.GetKeyDown(Key.R))
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    cities[i].Dispose();
+                }
+                GC.Collect();
+
+                for (int i = 0; i < 6; i++)
+                {
+                    cities.Add(new Building(this, i));
+                    //Console.WriteLine(string.Format("{0}. X: {1} Y: {2} W: {3} H: {4}", i, cities[i].GetX(), cities[i].GetY(), cities[i].GetWidth(), cities[i].GetHeight()));
+                    enemySpawner.InitTargets(new Vector2f(
+                        cities[i].GetX() + cities[i].GetWidth() * 0.5f,
+                        (float)cities[i].GetY()));
+                }
+            }
+
+
             if (GAME_ENGINE.GetKeyDown(Key.F2))
             {
                 //Was a screenshot idea
                 destroyedCities = 6;
+            }
+            if (GAME_ENGINE.GetKeyDown(Key.F3))
+            {
+                //Was a screenshot idea
+                destroyedCities = 0;
             }
         }
 
@@ -203,7 +227,9 @@ namespace GameEngine
                 if (destroyedCities == 6)
                 {
                     loseFont.SetHorizontalAlignment(Font.Alignment.Center);
+                    GAME_ENGINE.SetColor(190, 0, 0);
                     GAME_ENGINE.DrawString(loseFont, "You lose", rec_lose);
+                    GAME_ENGINE.SetColor(0, 0, 0);
                 }
 
                 rec_landscape.X = LandscapeX;
@@ -246,7 +272,7 @@ namespace GameEngine
 
         public void RegisterDestroyedBuilding(Building reg)
         {
-            cities[cities.IndexOf(reg)] = null;
+            //cities[cities.IndexOf(reg)] = null;
             destroyedCities++;
 
         }
@@ -267,6 +293,11 @@ namespace GameEngine
         public int GetDestroyedAmount()
         {
             return destroyedCities;
+        }
+
+        public EnemySpawner RefEnemySpawner()
+        {
+            return enemySpawner;
         }
     }
 }

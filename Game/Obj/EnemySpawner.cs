@@ -71,6 +71,11 @@ namespace GameEngine
             targets.Add(loc);
         }
 
+        public List<EnemyMissile> GetEnemyMissile()
+        {
+            return emissiles;
+        }
+
         public override void Dispose()
         {
             base.Dispose();
