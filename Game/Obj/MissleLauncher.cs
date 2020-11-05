@@ -84,15 +84,15 @@ namespace GameEngine
                 Vector2f misloc = missiles[i].GetLocation();
                 for (int j = 0; j < colCheckEMis.Count; j++)
                 {
-                    //if (Utils.Distance(misloc, colCheckEMis[j].GetLocation()) <= 200)
-                    if (Utils.Distance(new Vector2f(411, 670), colCheckEMis[j].GetLocation()) <= 200)
+                    if (Utils.Distance(misloc, colCheckEMis[j].GetLocation()) <= 35)
+                    //if (Utils.Distance(new Vector2f(411, 670), colCheckEMis[j].GetLocation()) <= 200)
                     {
                         Console.WriteLine("+++ missle hit!");
                         gameManager.RefEnemySpawner().EMissileDetonate(colCheckEMis[j]);
                     } else
                     {
                         //Console.WriteLine(string.Format("X: {0}, Y: {1}", missiles[i].GetLocation().X, missiles[i].GetLocation().Y));
-                        Console.WriteLine(string.Format("X: {0}, Y: {1}", gameManager.RefEnemySpawner().GetEnemyMissile(0).GetLocation().X, gameManager.RefEnemySpawner().GetEnemyMissile(0).GetLocation().Y));
+                        //Console.WriteLine(string.Format("X: {0}, Y: {1}", gameManager.RefEnemySpawner().GetEnemyMissile(0).GetLocation().X, gameManager.RefEnemySpawner().GetEnemyMissile(0).GetLocation().Y));
                         //Console.WriteLine(Utils.Distance(colCheckEMis[j].GetLocation(), new Vector2f(gameManager.GetBuildings()[2].GetX(), gameManager.GetBuildings()[2].GetY())));
                     }
                 }
