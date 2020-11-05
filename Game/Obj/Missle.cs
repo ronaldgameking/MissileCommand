@@ -77,7 +77,7 @@ namespace GameEngine
 
         public Explosion GetExplosion()
         {
-            return new Explosion(gameManager, missileLauncher, this, new Vector2f(0,0));
+            return explM;
         }
     }
 }

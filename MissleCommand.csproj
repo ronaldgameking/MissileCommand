@@ -472,7 +472,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include=".gitignore" />
-    <None Include="CanvasEngine_TemporaryKey.pfx" />
     <None Include="Game\FontCrap.cs" />
     <None Include="Game\CollisionManager.cs" />
     <Compile Include="Game\ImageData.cs" />

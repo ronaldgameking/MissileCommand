@@ -7,30 +7,34 @@ namespace GameEngine
     {
         GameManager gm;
 
-        Vector2f spawnPoint;
+        Vector2f ExplosionLocation;
+        Vector2f ExplosionLocationCenter;
         static float Expl_size = 35f;
         Rectanglef rec_explosion = new Rectanglef(Alignment.X.Center + 100, 400, Expl_size, Expl_size);
         float duration = 2f;
         bool nuked = false;
+        int type = 0;
         Random rda = new Random();
 
-        MissileLauncher missileLauncher;
+        static MissileLauncher missileLauncher;
         EnemySpawner enemySpawner;
         Building nukeTown;
 
         public Explosion(GameManager gameManager, MissileLauncher msl, Missile friendly, Vector2f spawnHere)
         {
             gm = gameManager;
-            spawnPoint = spawnHere;
+            ExplosionLocation = spawnHere;
+            ExplosionLocationCenter = new Vector2f(ExplosionLocation.X + Expl_size / 2f, ExplosionLocation.Y + Expl_size / 2f);
             missileLauncher = msl;
             rec_explosion.X = spawnHere.X;
             rec_explosion.Y = spawnHere.Y;
         }
-        public Explosion(GameManager gameManager, EnemySpawner es, EnemyMissile hostile, Vector2f spawnHere, Building hitBuilding)
+        public Explosion(GameManager gameManager, EnemySpawner es, EnemyMissile hostile, Vector2f spawnHere, Building hitBuilding, int setType)
         {
             gm = gameManager;
-            spawnPoint = spawnHere;
+            ExplosionLocation = spawnHere;
             enemySpawner = es;
+            type = setType;
             try
             {
 
@@ -47,7 +51,7 @@ namespace GameEngine
             {
                 Console.WriteLine("===============================================");
                 Console.WriteLine(string.Format("Error: {0}", e));
-                Console.WriteLine(string.Format("Count: {0}, attemping to access {1}", gm.GetBuildings().Count, gm.GetBuildings().IndexOf(hitBuilding) - 1));
+                Console.WriteLine(string.Format("Count: {0}, attemping to access {1}", gm.GetBuildings().Count, gm.GetBuildings().IndexOf(hitBuilding)));
                 Console.WriteLine("===============================================");
                 gm.error_reason = e;
                 Registers.gameState = GameState.Error;
@@ -65,7 +69,15 @@ namespace GameEngine
         {
             if (Registers.gameState == GameState.Running)
             {
-                GAME_ENGINE.SetColor(rda.Next(0, 255), rda.Next(0, 255), rda.Next(0, 255));
+                //Type = 0, friendly missile
+                //Type = 1, enemy missile
+                if (type == 0)
+                {
+                    GAME_ENGINE.SetColor(rda.Next(0, 255), rda.Next(0, 255), rda.Next(0, 255));
+                } else
+                {
+                    GAME_ENGINE.SetColor(255, 0, 0);
+                }
                 GAME_ENGINE.FillEllipse(rec_explosion);
 
                 duration -= GAME_ENGINE.GetDeltaTime() * 2.4f;
@@ -81,7 +93,7 @@ namespace GameEngine
                         }
                         if (checkBuildings[i] == null) continue;
                         if (Utils.Distance(new Vector2f(checkBuildings[i].GetX() + checkBuildings[i].GetWidth() * 0.5f,
-                            checkBuildings[i].GetY() + checkBuildings[i].GetHeight()), spawnPoint) < 40f)
+                            checkBuildings[i].GetY() + checkBuildings[i].GetHeight()), ExplosionLocation) < 40f)
                         {
                             Console.WriteLine(string.Format("Building hit! {0}", i));
                             nukeTown.Nuke();
@@ -89,6 +101,7 @@ namespace GameEngine
                             break;
                         }
                     }
+                    ExplosionCollision();
                 }
                 if (duration <= 0f)
                 {
@@ -97,27 +110,23 @@ namespace GameEngine
             }
         }
         /// <summary>
-        /// Forwards collision detection to misslelauncher and missles
+        /// Explosion Collision detection
         /// </summary>
         public void ExplosionCollision()
         {
             //get the enemy missles
             List<EnemyMissile> colCheckEMis = gm.RefEnemySpawner().GetEnemyMissiles();
 
-            Vector2f misloc;
-            for (int i = 0; i < missileLauncher.GetMissiles().Count; i++)
+            for (int i = 0; i < colCheckEMis.Count; i++)
             {
-                misloc = missileLauncher.GetMissiles()[i].GetLocation();
-                for (int j = 0; j < colCheckEMis.Count; j++)
+                
+                if (Utils.Distance(ExplosionLocationCenter, colCheckEMis[i].GetLocation()) <= 17.5f)
+                //if (Utils.Distance(new Vector2f(411, 670), colCheckEMis[j].GetLocation()) <= 200)
                 {
-                    if (Utils.Distance(misloc, colCheckEMis[j].GetLocation()) <= 17.5f)
-                    //if (Utils.Distance(new Vector2f(411, 670), colCheckEMis[j].GetLocation()) <= 200)
-                    {
-                        Console.WriteLine("+++ missle hit!");
-                        gm.RefEnemySpawner().EMissileDetonate(colCheckEMis[j]);
-                    }
-                    
+                    Console.WriteLine("+++ EXPLODE");
+                    gm.RefEnemySpawner().EMissileDetonate(colCheckEMis[i]);
                 }
+                
             }
         }
     }

@@ -59,7 +59,7 @@ namespace GameEngine
                 if (Utils.Distance(drawHere, dest) <= 1)
                 //if (drawHere.X >= dest.X && drawHere.Y >= dest.Y && drawHere.X <= (dest.X + 15) && drawHere.Y <= (dest.Y + 15))
                 {
-                    if (targetID <= gameManager.GetBuildings().Count - 1) explM = new Explosion(gameManager, enemySpawner, this, drawHere, gameManager.GetBuildings()[targetID]);
+                    if (targetID <= gameManager.GetBuildings().Count - 1) explM = new Explosion(gameManager, enemySpawner, this, drawHere, gameManager.GetBuildings()[targetID], 1);
                     enemySpawner.EMissileDetonate(this);
                     Dispose();
                 }

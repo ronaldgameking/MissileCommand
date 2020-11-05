@@ -311,5 +311,10 @@ namespace GameEngine
         {
             return enemySpawner;
         }
+
+        public MissileLauncher RefMissleLauncher()
+        {
+            return missileLauncher;
+        }
     }
 }
