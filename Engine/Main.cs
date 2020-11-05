@@ -35,8 +35,8 @@ namespace GameEngine
         public static GameState gameState = GameState.Running;
         public static readonly int ScreenWidth = 1280;
         public static readonly int ScreenHeight = 720;
-        public static int CrosshairX = 0;
-        public static int CrosshairY = 400;
+        public static float CrosshairX = 0;
+        public static float CrosshairY = 400;
         public static bool fireNow = false;
         public static bool sprint = false;
     }

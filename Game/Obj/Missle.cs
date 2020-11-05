@@ -62,7 +62,7 @@ namespace GameEngine
                     missileLauncher.MissileDetonate(this);
                     Dispose();
                 }
-                curTime += GAME_ENGINE.GetDeltaTime();
+                curTime += GAME_ENGINE.GetDeltaTime() * 1.4f;
 
                 if (misLocY <= 0)
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace GameEngine
 {
@@ -8,15 +9,18 @@ namespace GameEngine
         GameManager gm;
 
         Vector2f ExplosionLocation;
-        Vector2f ExplosionLocationCenter;
+        Vector2f ExplosionLocationTopLeft;
         static float Expl_size = 35f;
         Rectanglef rec_explosion = new Rectanglef(Alignment.X.Center + 100, 400, Expl_size, Expl_size);
         float duration = 2f;
         bool nuked = false;
         int type = 0;
         Random rda = new Random();
+        Bitmap explosion_bmp = new Bitmap("explosion.png");
 
-        static MissileLauncher missileLauncher;
+        int EnemyColorFlip = 0;
+
+        MissileLauncher missileLauncher;
         EnemySpawner enemySpawner;
         Building nukeTown;
 
@@ -24,7 +28,7 @@ namespace GameEngine
         {
             gm = gameManager;
             ExplosionLocation = spawnHere;
-            ExplosionLocationCenter = new Vector2f(ExplosionLocation.X + Expl_size / 2f, ExplosionLocation.Y + Expl_size / 2f);
+            ExplosionLocationTopLeft = new Vector2f(ExplosionLocation.X - Expl_size / 2f, ExplosionLocation.Y - Expl_size / 2f);
             missileLauncher = msl;
             rec_explosion.X = spawnHere.X;
             rec_explosion.Y = spawnHere.Y;
@@ -33,6 +37,7 @@ namespace GameEngine
         {
             gm = gameManager;
             ExplosionLocation = spawnHere;
+            ExplosionLocationTopLeft = new Vector2f(ExplosionLocation.X - Expl_size / 2f, ExplosionLocation.Y - Expl_size / 2f);
             enemySpawner = es;
             type = setType;
             try
@@ -74,11 +79,20 @@ namespace GameEngine
                 if (type == 0)
                 {
                     GAME_ENGINE.SetColor(rda.Next(0, 255), rda.Next(0, 255), rda.Next(0, 255));
+                    GAME_ENGINE.FillEllipse(rec_explosion);
                 } else
                 {
-                    GAME_ENGINE.SetColor(255, 0, 0);
+                    //if (EnemyColorFlip == 0)
+                    //{
+                    //    GAME_ENGINE.SetColor(255, 0, 0);
+                    //    EnemyColorFlip++;
+                    //} else
+                    //{
+                    //    GAME_ENGINE.SetColor(255, 255, 255);
+                    //    EnemyColorFlip--;
+                    //}
+                    GAME_ENGINE.DrawBitmap(explosion_bmp, ExplosionLocationTopLeft);
                 }
-                GAME_ENGINE.FillEllipse(rec_explosion);
 
                 duration -= GAME_ENGINE.GetDeltaTime() * 2.4f;
                 if (nukeTown != null && nuked == false)
@@ -101,8 +115,8 @@ namespace GameEngine
                             break;
                         }
                     }
-                    ExplosionCollision();
                 }
+                if (type == 0) ExplosionCollision();
                 if (duration <= 0f)
                 {
                     Dispose();
@@ -116,11 +130,11 @@ namespace GameEngine
         {
             //get the enemy missles
             List<EnemyMissile> colCheckEMis = gm.RefEnemySpawner().GetEnemyMissiles();
-
+            //Console.WriteLine(string.Format("X: {0}, Y: {1}", ExplosionLocationCenter.X, ExplosionLocationCenter.Y));
             for (int i = 0; i < colCheckEMis.Count; i++)
             {
-                
-                if (Utils.Distance(ExplosionLocationCenter, colCheckEMis[i].GetLocation()) <= 17.5f)
+                //Console.WriteLine(Utils.Distance(ExplosionLocationCenter, colCheckEMis[i].GetLocation()));
+                if (Utils.Distance(ExplosionLocation, colCheckEMis[i].GetLocation()) <= Expl_size)
                 //if (Utils.Distance(new Vector2f(411, 670), colCheckEMis[j].GetLocation()) <= 200)
                 {
                     Console.WriteLine("+++ EXPLODE");

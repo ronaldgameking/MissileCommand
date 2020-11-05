@@ -18,6 +18,7 @@ namespace GameEngine
         Rectanglef rec_crosshair = new Rectanglef(Registers.CrosshairX, Registers.CrosshairY, 15, 15);
         Vector2f crossHair = new Vector2f(Registers.ScreenWidth * 0.5f, Registers.ScreenHeight * 0.5f);
         Bitmap landscape_bit;
+        int aimspeed = 250;
 
         //======================================
 
@@ -114,14 +115,14 @@ namespace GameEngine
                 //make the crosshair move faster when shift is held
                 if (Registers.sprint == false)
                 {
-                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY--;
-                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY++;
-                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX++;
-                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX--;
+                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= aimspeed * GAME_ENGINE.GetDeltaTime();
+                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += aimspeed * GAME_ENGINE.GetDeltaTime();
+                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += aimspeed * GAME_ENGINE.GetDeltaTime();
+                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= aimspeed * GAME_ENGINE.GetDeltaTime();
                 }
                 else
                 {
-                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= 2;
+                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= aimspeed * GAME_ENGINE.GetDeltaTime() * 2;
                     if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += 2;
                     if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += 2;
                     if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= 2;
@@ -181,7 +182,7 @@ namespace GameEngine
 
         public override void Paint()
         {
-            //If there's an error don't show anything else
+            //If there's an error don't show anything else, in any class that needs to change values each frame and other drae functions
             if (Registers.gameState != GameState.Error)
             {
                 GAME_ENGINE.SetBackgroundColor(0, 0, 0);
@@ -192,6 +193,7 @@ namespace GameEngine
                 }
                 if (Registers.gameState == GameState.Paused)
                 {
+                    //Draw pause menu
                     int h = 0;
                     for (int ij = 0; ij < ImageData.PauseMenu.Length; ij++)
                     {
