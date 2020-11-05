@@ -58,7 +58,7 @@ namespace GameEngine
                 if (Utils.Distance(drawHere, dest) <= 1)
                 //if (drawHere.X >= dest.X && drawHere.Y >= dest.Y && drawHere.X <= (dest.X + 15) && drawHere.Y <= (dest.Y + 15))
                 {
-                    explM = new Explosion(missileLauncher, this, drawHere);
+                    explM = new Explosion(gameManager, missileLauncher, this, drawHere);
                     missileLauncher.MissileDetonate(this);
                     Dispose();
                 }
@@ -77,7 +77,7 @@ namespace GameEngine
 
         public Explosion GetExplosion()
         {
-            return new Explosion(missileLauncher, this, new Vector2f(0,0));
+            return new Explosion(gameManager, missileLauncher, this, new Vector2f(0,0));
         }
     }
 }

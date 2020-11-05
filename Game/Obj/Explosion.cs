@@ -18,8 +18,9 @@ namespace GameEngine
         EnemySpawner enemySpawner;
         Building nukeTown;
 
-        public Explosion(MissileLauncher msl, Missile friendly, Vector2f spawnHere)
+        public Explosion(GameManager gameManager, MissileLauncher msl, Missile friendly, Vector2f spawnHere)
         {
+            gm = gameManager;
             spawnPoint = spawnHere;
             missileLauncher = msl;
             rec_explosion.X = spawnHere.X;
@@ -94,7 +95,30 @@ namespace GameEngine
                     Dispose();
                 }
             }
+        }
+        /// <summary>
+        /// Forwards collision detection to misslelauncher and missles
+        /// </summary>
+        public void ExplosionCollision()
+        {
+            //get the enemy missles
+            List<EnemyMissile> colCheckEMis = gm.RefEnemySpawner().GetEnemyMissiles();
 
+            Vector2f misloc;
+            for (int i = 0; i < missileLauncher.GetMissiles().Count; i++)
+            {
+                misloc = missileLauncher.GetMissiles()[i].GetLocation();
+                for (int j = 0; j < colCheckEMis.Count; j++)
+                {
+                    if (Utils.Distance(misloc, colCheckEMis[j].GetLocation()) <= 17.5f)
+                    //if (Utils.Distance(new Vector2f(411, 670), colCheckEMis[j].GetLocation()) <= 200)
+                    {
+                        Console.WriteLine("+++ missle hit!");
+                        gm.RefEnemySpawner().EMissileDetonate(colCheckEMis[j]);
+                    }
+                    
+                }
+            }
         }
     }
 }
