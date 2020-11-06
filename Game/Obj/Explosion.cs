@@ -142,7 +142,7 @@ namespace GameEngine
                 if (Utils.Distance(ExplosionLocation, colCheckEMis[i].GetLocation()) <= Expl_size)
                 //if (Utils.Distance(new Vector2f(411, 670), colCheckEMis[j].GetLocation()) <= 200)
                 {
-                    Console.WriteLine("+++ EXPLODE");
+                    //Console.WriteLine("+++ EXPLODE");
                     gm.RefEnemySpawner().EMissileDetonate(colCheckEMis[i]);
                 }
                 

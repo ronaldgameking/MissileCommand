@@ -476,7 +476,7 @@
     <Compile Include="Game\MissionCommand.cs" />
     <Compile Include="Game\MissleBase.cs" />
     <Compile Include="Game\ObjProperties.cs" />
-    <None Include="Game\Obj\BetterButton.cs" />
+    <Compile Include="Game\Obj\BetterButton.cs" />
     <Compile Include="Game\Obj\Building.cs" />
     <Compile Include="Game\Obj\EnemySpawner.cs" />
     <Compile Include="Game\Obj\Explosion.cs" />

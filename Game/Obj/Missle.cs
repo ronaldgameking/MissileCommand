@@ -7,14 +7,15 @@ namespace GameEngine
 
         GameManager gameManager;
         MissileLauncher missileLauncher;
+        Explosion explM;
         Rectanglef rec_base_missile = new Rectanglef(Alignment.X.Center + 10, 400, 5, 5);
-        float misLocX;
-        float misLocY;
         Vector2f orgin;
         Vector2f drawHere;
         Vector2f dest;
+        float misLocX;
+        float misLocY;
         float curTime = 0;
-        Explosion explM;
+        float speedMultiplier = 1.01f;
 
         public Missile(GameManager gm, MissileLauncher ml, Vector2f desti)
         {
@@ -62,7 +63,7 @@ namespace GameEngine
                     missileLauncher.MissileDetonate(this);
                     Dispose();
                 }
-                curTime += GAME_ENGINE.GetDeltaTime() * 1.4f;
+                curTime += GAME_ENGINE.GetDeltaTime() * 2f;
 
                 if (misLocY <= 0)
                 {

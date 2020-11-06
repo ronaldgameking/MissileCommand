@@ -19,7 +19,7 @@ namespace GameEngine
         Vector2f crossHair = new Vector2f(Registers.ScreenWidth * 0.5f, Registers.ScreenHeight * 0.5f);
         Bitmap landscape_bit;
         int aimspeed = 250;
-        int shiftAimspeed = 350;
+        int shiftAimspeed = 450;
 
         //======================================
 
