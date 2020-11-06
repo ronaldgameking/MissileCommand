@@ -28,7 +28,7 @@ namespace GameEngine
     {
         //Check if it's run in debug configuration (compiler
 #if (DEBUG)
-        public static string version = "0.8.28 | DEV CHANNEL";
+        public static string version = "0.8.33 | DEV CHANNEL";
 #else
         public static string version = "0.8.34 | PROD CHANNEL";
 #endif
