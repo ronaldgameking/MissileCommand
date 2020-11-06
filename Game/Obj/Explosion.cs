@@ -17,8 +17,6 @@ namespace GameEngine
         Random rda = new Random();
         Bitmap explosion_bmp = new Bitmap("explosion.png");
 
-        int EnemyColorFlip = 0;
-
         MissileLauncher missileLauncher;
         EnemySpawner enemySpawner;
         Building nukeTown;
@@ -39,17 +37,11 @@ namespace GameEngine
             ExplosionLocationTopLeft = new Vector2f(ExplosionLocation.X - Expl_size / 2f, ExplosionLocation.Y - Expl_size / 2f);
             enemySpawner = es;
             type = setType;
+
+            //Prevent out of range exception, in case the building is already destroyed
             try
             {
-
-                //if (gm.GetBuildings().IndexOf(hitBuilding) - 1 > -1)
-                //{
-                //    nukeTown = gm.GetBuildings()[gm.GetBuildings().IndexOf(hitBuilding) - 1];
-                //}
-                //else
-                //{
                 nukeTown = gm.GetBuildings()[gm.GetBuildings().IndexOf(hitBuilding)];
-                //}
             }
             catch (Exception e)
             {
@@ -72,6 +64,7 @@ namespace GameEngine
         public override void GameStart()
         {
             gm.explosions.Add(this);
+            Console.WriteLine(string.Format("Explosions #{0}", gm.explosions.Count));
         }
 
         public override void Paint()
@@ -87,15 +80,6 @@ namespace GameEngine
                 }
                 else
                 {
-                    //if (EnemyColorFlip == 0)
-                    //{
-                    //    GAME_ENGINE.SetColor(255, 0, 0);
-                    //    EnemyColorFlip++;
-                    //} else
-                    //{
-                    //    GAME_ENGINE.SetColor(255, 255, 255);
-                    //    EnemyColorFlip--;
-                    //}
                     GAME_ENGINE.DrawBitmap(explosion_bmp, ExplosionLocationTopLeft);
                 }
 
@@ -135,14 +119,10 @@ namespace GameEngine
         {
             //get the enemy missles
             List<EnemyMissile> colCheckEMis = gm.RefEnemySpawner().GetEnemyMissiles();
-            //Console.WriteLine(string.Format("X: {0}, Y: {1}", ExplosionLocationCenter.X, ExplosionLocationCenter.Y));
             for (int i = 0; i < colCheckEMis.Count; i++)
             {
-                //Console.WriteLine(Utils.Distance(ExplosionLocationCenter, colCheckEMis[i].GetLocation()));
                 if (Utils.Distance(ExplosionLocation, colCheckEMis[i].GetLocation()) <= Expl_size)
-                //if (Utils.Distance(new Vector2f(411, 670), colCheckEMis[j].GetLocation()) <= 200)
                 {
-                    //Console.WriteLine("+++ EXPLODE");
                     gm.RefEnemySpawner().EMissileDetonate(colCheckEMis[i]);
                 }
 
