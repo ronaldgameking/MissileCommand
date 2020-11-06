@@ -13,13 +13,13 @@ namespace GameEngine
         int Pausemenu_line = 0;
         int PausemenuScale = 8;
         int destroyedCities = 0;
+        int aimspeed = 250;
+        int shiftAimspeed = 450;
         Rectanglef rec_landscape;
         Rectanglef rec_pausemenu;
         Rectanglef rec_crosshair = new Rectanglef(Registers.CrosshairX, Registers.CrosshairY, 15, 15);
         Vector2f crossHair = new Vector2f(Registers.ScreenWidth * 0.5f, Registers.ScreenHeight * 0.5f);
         Bitmap landscape_bit;
-        int aimspeed = 250;
-        int shiftAimspeed = 450;
 
         //======================================
 
@@ -27,6 +27,13 @@ namespace GameEngine
         EnemySpawner enemySpawner;
         List<Building> cities = new List<Building>();
         public List<Explosion> explosions = new List<Explosion>();
+
+        //======================================
+        //Score & Alive timer
+
+        public int updateTimer = -1;
+        public int paintTimer = -1;
+        Rectanglef rec_perfomanceMonitor = new Rectanglef(Alignment.X.Right - 100, Alignment.Y.Up + 50, 100, 50);
 
         //======================================
         //YOU LOSE
@@ -91,6 +98,7 @@ namespace GameEngine
 
         public override void Update()
         {
+            updateTimer++;
             missileLauncher.ForwardCollision();
             if (GAME_ENGINE.GetKey(Key.Escape))
             {
@@ -149,13 +157,27 @@ namespace GameEngine
                 Registers.CrosshairX = Alignment.X.Center;
                 Registers.CrosshairY = Alignment.Y.Center;
 
-                cities.Clear(); 
-                for (int i = 0;  i < 6; i++)
+                //for (int e = 0; e < explosions.Count; e++)
+                //{
+                //    explosions[e].Dispose();
+                //    explosions.RemoveAt(e);
+                //}
+
+                int e = 0;
+                foreach (Explosion explosion in explosions)
+                {
+                    explosions.RemoveAt(e);
+                    explosion.Dispose();
+                    e++;
+                }
+
+                cities.Clear();
+                for (int i = 0; i < 6; i++)
                 {
                     cities.Add(new Building(this, i));
-                    enemySpawner.InitTargets(new Vector2f(
-                        cities[i].GetX() + cities[i].GetWidth() * 0.5f,
-                        (float)cities[i].GetY()));
+                    //enemySpawner.InitTargets(new Vector2f(
+                    //    cities[i].GetX() + cities[i].GetWidth() * 0.5f,
+                    //    (float)cities[i].GetY()));
                 }
                 GC.Collect();
                 destroyedCities = 0;
@@ -176,6 +198,11 @@ namespace GameEngine
 
         public override void Paint()
         {
+            paintTimer++;
+            GAME_ENGINE.SetColor(255, 255, 255);
+            GAME_ENGINE.DrawString(errorFont, string.Format("Update: {0}, Paint: {1}", updateTimer, paintTimer), rec_perfomanceMonitor);
+            GAME_ENGINE.SetColor(0, 0, 0);
+
             //If there's an error don't show anything else, in any class that needs to change values each frame and other drae functions
             if (Registers.gameState != GameState.Error)
             {
@@ -252,12 +279,14 @@ namespace GameEngine
                 return;
             }
             GAME_ENGINE.SetBackgroundColor(200, 0, 30);
-            GAME_ENGINE.SetColor(0, 0, 0);
+            GAME_ENGINE.SetColor(255, 255, 255);
             GAME_ENGINE.DrawString(errorFontM, "An Error has occured", rec_errorM);
             if (error_reason == null) error_reason = new Exception("Error Screen triggered");
             string err = error_reason.ToString();
             //GAME_ENGINE.DrawString(errorFont, string.Format("{0}", Regex.Replace(err, err_pattern, "")), rec_error);
             GAME_ENGINE.DrawString(errorFont, string.Format("{0}", err), rec_error);
+            GAME_ENGINE.SetColor(0, 0, 0);
+
 
         }
         public void ReadFont()

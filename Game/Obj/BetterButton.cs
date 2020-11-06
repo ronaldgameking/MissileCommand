@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GameEngine.Better
+﻿namespace GameEngine.Better
 {
     public abstract class BetterButton : GameObject
     {
@@ -11,7 +9,7 @@ namespace GameEngine.Better
 
         public override void Update()
         {
-            
+
         }
     }
 }

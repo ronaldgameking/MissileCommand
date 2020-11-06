@@ -33,11 +33,11 @@ namespace GameEngine
         public static string version = "0.8.34 | PROD CHANNEL";
 #endif
         public static GameState gameState = GameState.Running;
-        public int score= 0;
-        public float TimeAlive;
-        public static int ResetObj = 0;
         public static readonly int ScreenWidth = 1280;
         public static readonly int ScreenHeight = 720;
+        public int score = 0;
+        public float TimeAlive;
+        public static int ResetObj = 0;
         public static float CrosshairX = 0;
         public static float CrosshairY = 400;
         public static bool fireNow = false;

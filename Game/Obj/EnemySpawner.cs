@@ -50,15 +50,17 @@ namespace GameEngine
                     //60% chance a second missile will spawn
                     if (Utils.Chance(60))
                     {
+                        int targSec = rng.Next(0, targets.Count);
                         //emis = new EnemyMissile(gameManager, this, new Vector2f(targets[2].X, 0), targets[2], 2);
-                        emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targ], targ);
+                        emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targSec], targSec);
                         emissiles.Add(emis);
                     }
                     //20% chance a third missile will spawn
                     if (Utils.Chance(20))
                     {
+                        int targThr = rng.Next(0, targets.Count);
                         //emis = new EnemyMissile(gameManager, this, new Vector2f(targets[2].X, 0), targets[2], 2);
-                        emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targ], targ);
+                        emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targThr], targThr);
                         emissiles.Add(emis);
                     }
                     timeLeft = interval;
@@ -68,6 +70,7 @@ namespace GameEngine
 
         public void EMissileDetonate(EnemyMissile demEMissile)
         {
+            demEMissile.explM = new Explosion(gameManager, this, demEMissile, demEMissile.GetLocation(), gameManager.GetBuildings()[demEMissile.targetID], 0);
             Console.WriteLine("Demontated missile");
             if (emissiles.Contains(demEMissile))
             {

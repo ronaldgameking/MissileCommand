@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace GameEngine
 {
@@ -10,7 +9,7 @@ namespace GameEngine
 #pragma warning disable IDE0044
         GameManager gameManager;
         EnemySpawner enemySpawner;
-        Explosion explM;
+        public Explosion explM { get; set; }
         Random startRandom = new Random();
         float misLocX;
         float misLocY;
@@ -20,7 +19,7 @@ namespace GameEngine
         Vector2f orgin;
         Vector2f dest;
         Vector2f drawHere;
-        int targetID;
+        public int targetID { get; }
         Rectanglef rec_base_missile = new Rectanglef(Alignment.X.Center + 10, Alignment.Y.Up, 5, 5);
 
         public EnemyMissile(GameManager gm, EnemySpawner es, Vector2f orginLoc, Vector2f destination, int tar)
@@ -54,8 +53,9 @@ namespace GameEngine
                 //GAME_ENGINE.SetColor(0, 0, 0);
                 //misLocY -= 75 * GAME_ENGINE.  DeltaTime();
 
-                drawHere = Utils.Lerp2D(orgin, dest, curTime/2);
+                drawHere = Utils.Lerp2D(orgin, dest, curTime / 2);
                 GAME_ENGINE.FillRectangle(drawHere.X, drawHere.Y, 5, 5);
+                GAME_ENGINE.DrawLine(orgin, new Vector2f(drawHere.X + 2.5f, drawHere.Y + 2.5f), 5f);
                 //Console.WriteLine(string.Format("before = {0}", DateTime.Now.Millisecond));
                 //Utils.Distance(1f, 1f, 100f, 100f);
                 //Console.WriteLine(string.Format("after = {0}", DateTime.Now.Millisecond));
@@ -67,9 +67,10 @@ namespace GameEngine
                     enemySpawner.EMissileDetonate(this);
                     Dispose();
                 }
-                curTime += GAME_ENGINE.GetDeltaTime() / 2.5f;
+                //curTime += GAME_ENGINE.GetDeltaTime() / 2.5f;
+                curTime += GAME_ENGINE.GetDeltaTime() / 1.1f;
                 if (Utils.Distance(drawHere, new Vector2f(Alignment.X.Left, Alignment.Y.Up)) <= 0 && Utils.Distance(drawHere, new Vector2f(Alignment.X.Right, Alignment.Y.Down)) <= 0)
-                { 
+                {
                     enemySpawner.EMissileDetonate(this);
                     Dispose();
                 }

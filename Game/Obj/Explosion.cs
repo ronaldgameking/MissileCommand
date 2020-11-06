@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace GameEngine
 {
@@ -85,7 +84,8 @@ namespace GameEngine
                 {
                     GAME_ENGINE.SetColor(rda.Next(0, 255), rda.Next(0, 255), rda.Next(0, 255));
                     GAME_ENGINE.FillEllipse(rec_explosion);
-                } else
+                }
+                else
                 {
                     //if (EnemyColorFlip == 0)
                     //{
@@ -145,7 +145,7 @@ namespace GameEngine
                     //Console.WriteLine("+++ EXPLODE");
                     gm.RefEnemySpawner().EMissileDetonate(colCheckEMis[i]);
                 }
-                
+
             }
         }
     }

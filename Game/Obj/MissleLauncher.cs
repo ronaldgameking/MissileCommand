@@ -90,7 +90,8 @@ namespace GameEngine
                     {
                         Console.WriteLine("+++ missle hit!");
                         gameManager.RefEnemySpawner().EMissileDetonate(colCheckEMis[j]);
-                    } else
+                    }
+                    else
                     {
                         //Console.WriteLine(string.Format("X: {0}, Y: {1}", missiles[i].GetLocation().X, missiles[i].GetLocation().Y));
                         //Console.WriteLine(string.Format("X: {0}, Y: {1}", gameManager.RefEnemySpawner().GetEnemyMissile(0).GetLocation().X, gameManager.RefEnemySpawner().GetEnemyMissile(0).GetLocation().Y));

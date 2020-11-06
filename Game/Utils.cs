@@ -68,9 +68,9 @@ namespace GameEngine
             Vector2f delta = new Vector2f(bx - ax, by - ay);
             float distance = (float)Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y);
             return distance;
-            
+
         }
-        
+
 
         /// <summary>
         /// Make an <c>GameObject</c> move in a certain direction
