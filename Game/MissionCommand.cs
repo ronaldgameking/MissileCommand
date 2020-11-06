@@ -31,10 +31,6 @@ namespace GameEngine
         //======================================
         //Score & Alive timer
 
-        public int updateTimer = -1;
-        public int paintTimer = -1;
-        Rectanglef rec_perfomanceMonitor = new Rectanglef(Alignment.X.Right - 100, Alignment.Y.Up + 50, 100, 50);
-
         //======================================
         //YOU LOSE
 
@@ -98,7 +94,6 @@ namespace GameEngine
 
         public override void Update()
         {
-            updateTimer++;
             missileLauncher.ForwardCollision();
             if (GAME_ENGINE.GetKey(Key.Escape))
             {
@@ -198,10 +193,6 @@ namespace GameEngine
 
         public override void Paint()
         {
-            paintTimer++;
-            GAME_ENGINE.SetColor(255, 255, 255);
-            GAME_ENGINE.DrawString(errorFont, string.Format("Update: {0}, Paint: {1}", updateTimer, paintTimer), rec_perfomanceMonitor);
-            GAME_ENGINE.SetColor(0, 0, 0);
 
             //If there's an error don't show anything else, in any class that needs to change values each frame and other drae functions
             if (Registers.gameState != GameState.Error)
