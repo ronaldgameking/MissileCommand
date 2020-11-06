@@ -19,6 +19,7 @@ namespace GameEngine
         Vector2f crossHair = new Vector2f(Registers.ScreenWidth * 0.5f, Registers.ScreenHeight * 0.5f);
         Bitmap landscape_bit;
         int aimspeed = 250;
+        int shiftAimspeed = 350;
 
         //======================================
 
@@ -116,17 +117,19 @@ namespace GameEngine
                 //make the crosshair move faster when shift is held
                 if (Registers.sprint == false)
                 {
-                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= aimspeed * GAME_ENGINE.GetDeltaTime();
-                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += aimspeed * GAME_ENGINE.GetDeltaTime();
-                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += aimspeed * GAME_ENGINE.GetDeltaTime();
-                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= aimspeed * GAME_ENGINE.GetDeltaTime();
+                    float speedMultiplier = 1.1f;
+                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= aimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += aimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += aimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= aimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
                 }
                 else
                 {
-                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= aimspeed * GAME_ENGINE.GetDeltaTime() * 2;
-                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += 2;
-                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += 2;
-                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= 2;
+                    float speedMultiplier = 1.3f;
+                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= shiftAimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += shiftAimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += shiftAimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= shiftAimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
                 }
             }
             if (GAME_ENGINE.GetKeyDown(Key.F12))
