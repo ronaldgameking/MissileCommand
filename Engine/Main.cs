@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Missile command
+ * Created by Ronald
+ * 
+ * Game built on CanvasEngine in C#
+ * MPL-2.0 License 
+ */
+
+using System;
 
 namespace GameEngine
 {
@@ -28,7 +36,7 @@ namespace GameEngine
     {
         //Check if it's run in debug configuration (compiler
 #if (DEBUG)
-        public static string version = "0.8.28 | DEV CHANNEL";
+        public static string version = "0.8.34 | DEV CHANNEL";
 #else
         public static string version = "0.8.34 | PROD CHANNEL";
 #endif

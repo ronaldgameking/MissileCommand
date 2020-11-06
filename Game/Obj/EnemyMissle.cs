@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Missile command
+ * Created by Ronald
+ * 
+ * Game built on CanvasEngine in C#
+ * MPL-2.0 License 
+ */
+
+using System;
 
 namespace GameEngine
 {
@@ -60,7 +68,7 @@ namespace GameEngine
                     enemySpawner.EMissileDetonate(this);
                     Dispose();
                 }
-                curTime += GAME_ENGINE.GetDeltaTime() / 1.1f;
+                curTime += GAME_ENGINE.GetDeltaTime() / 2.5f;
 
                 //Destroy missile when out of screen
                 if (Utils.Distance(drawHere, new Vector2f(Alignment.X.Left, Alignment.Y.Up)) <= 0 && Utils.Distance(drawHere, new Vector2f(Alignment.X.Right, Alignment.Y.Down)) <= 0)

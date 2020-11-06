@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Missile command
+ * Created by Ronald
+ * 
+ * Game built on CanvasEngine in C#
+ * MPL-2.0 License 
+ */
+
+using System;
 
 namespace GameEngine
 {
