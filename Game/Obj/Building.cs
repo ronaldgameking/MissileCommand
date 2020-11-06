@@ -13,14 +13,10 @@ namespace GameEngine
         int Height;
         float resize = 1.0f;
         bool alreadyNuked = false;
-        //========================================
-
-        List<object> properties = new List<object>();
 
         //========================================
         //Positions
         List<Vector2f> cityPos = new List<Vector2f>();
-
 
         //========================================
 
@@ -30,6 +26,8 @@ namespace GameEngine
             CityIndex = indx;
             Width = (int)Math.Round(city_bpm.GetWidth(), 0);
             Height = (int)Math.Round(city_bpm.GetHeight(), 0);
+
+            //Locations of buildings
             cityPos.Add(new Vector2f(Alignment.X.Left + 80, Alignment.Y.Down - 50));
             cityPos.Add(new Vector2f(Alignment.X.Left + 241, Alignment.Y.Down - 50));
             cityPos.Add(new Vector2f(Alignment.X.Center - 229, Alignment.Y.Down - 50));
@@ -42,6 +40,7 @@ namespace GameEngine
         {
             if (Registers.gameState == GameState.Running || Registers.gameState == GameState.Paused)
             {
+                //Draw building depending on CityIndex
                 switch (CityIndex)
                 {
                     case 0:
@@ -68,6 +67,7 @@ namespace GameEngine
             }
         }
 
+        //Destroys the building
         public void Nuke()
         {
             if (alreadyNuked == false)

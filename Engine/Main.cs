@@ -28,15 +28,18 @@ namespace GameEngine
     {
         //Check if it's run in debug configuration (compiler
 #if (DEBUG)
-        public static string version = "0.8.24 | DEV CHANNEL";
+        public static string version = "0.8.28 | DEV CHANNEL";
 #else
         public static string version = "0.8.34 | PROD CHANNEL";
 #endif
         public static GameState gameState = GameState.Running;
         public static readonly int ScreenWidth = 1280;
         public static readonly int ScreenHeight = 720;
-        public static int CrosshairX = 0;
-        public static int CrosshairY = 400;
+        public int score = 0;
+        public float TimeAlive;
+        public static int ResetObj = 0;
+        public static float CrosshairX = 0;
+        public static float CrosshairY = 400;
         public static bool fireNow = false;
         public static bool sprint = false;
     }
@@ -63,11 +66,7 @@ namespace GameEngine
         Running,
         Paused,
         Stopped,
+        Reseting,
         Error
-    }
-
-    public struct MyStruct
-    {
-
     }
 }

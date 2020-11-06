@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GameEngine
+﻿namespace GameEngine
 {
     public class pause
     {

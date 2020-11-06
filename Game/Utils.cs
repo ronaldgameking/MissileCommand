@@ -68,9 +68,9 @@ namespace GameEngine
             Vector2f delta = new Vector2f(bx - ax, by - ay);
             float distance = (float)Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y);
             return distance;
-            
+
         }
-        
+
 
         /// <summary>
         /// Make an <c>GameObject</c> move in a certain direction
@@ -83,9 +83,16 @@ namespace GameEngine
             return new Vector2f((float)Math.Cos(radians), (float)Math.Sin(radians));
         }
 
-
-        //Console.WriteLine(string.Format("before = {0}", DateTime.Now.Millisecond));
-        //Utils.Distance(1f, 1f, 100f, 100f);
-        //Console.WriteLine(string.Format("after = {0}", DateTime.Now.Millisecond));
+        /// <summary>
+        /// A random chance that something will succeed
+        /// </summary>
+        /// <param name="chanceSuccess">How much chance to succeed</param>
+        /// <returns>bool</returns>
+        public static bool Chance(int chanceSuccess)
+        {
+            Random chanceRNG = new Random();
+            if (chanceRNG.Next(0, 100) < chanceSuccess) return true;
+            return false;
+        }
     }
 }

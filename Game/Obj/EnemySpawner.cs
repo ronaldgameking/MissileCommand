@@ -20,8 +20,6 @@ namespace GameEngine
         public EnemySpawner(GameManager gm)
         {
             gameManager = gm;
-            //targets.Add(new Vector2f(Alignment.X.Center + 10, Alignment.Y.Down - 80));
-            //emis = new EnemyMissile(gameManager, new Vector2f(Alignment.X.Center, Alignment.Y.Center));
         }
 
         ~EnemySpawner()
@@ -45,17 +43,34 @@ namespace GameEngine
                     int targ = rng.Next(0, targets.Count);
                     emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targ], targ);
                     emissiles.Add(emis);
+
+                    //60% chance a second missile will spawn
+                    if (Utils.Chance(60))
+                    {
+                        int targSec = rng.Next(0, targets.Count);
+                        emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targSec], targSec);
+                        emissiles.Add(emis);
+                    }
+                    //20% chance a third missile will spawn
+                    if (Utils.Chance(20))
+                    {
+                        int targThr = rng.Next(0, targets.Count);
+                        emis = new EnemyMissile(gameManager, this, new Vector2f(rng.Next(0, Registers.ScreenWidth), 0), targets[targThr], targThr);
+                        emissiles.Add(emis);
+                    }
                     timeLeft = interval;
                 }
             }
         }
 
-        public void EMissileDetonate(EnemyMissile demEMissile)
+        public void EMissileDetonate(EnemyMissile detEMissile)
         {
+            detEMissile.explM = new Explosion(gameManager, this, detEMissile, detEMissile.GetLocation(), gameManager.GetBuildings()[detEMissile.targetID], 0);
             Console.WriteLine("Demontated missile");
-            if (emissiles.Contains(demEMissile))
+            if (emissiles.Contains(detEMissile))
             {
-                emissiles.Remove(demEMissile);
+                detEMissile.Dispose();
+                emissiles.Remove(detEMissile);
             }
             return;
         }
@@ -79,6 +94,7 @@ namespace GameEngine
             return emissiles[at];
         }
 
+        //Override Dispose (inherited from IDisposable) function, for convenience 
         public override void Dispose()
         {
             base.Dispose();

@@ -1,31 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-
-//SharpDX
-using SharpDX.Windows;
-using System.Drawing;
-using SharpDX.DXGI;
+﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using SharpDX.Direct2D1;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
+using SharpDX.DXGI;
+using SharpDX.IO;
 using SharpDX.Mathematics.Interop;
 using SharpDX.WIC;
-using SharpDX.IO;
-
-using NAudio.Wave;
-
-using D3D11 = SharpDX.Direct3D11;
-using Device = SharpDX.Direct3D11.Device;
-using D2DFactory = SharpDX.Direct2D1.Factory;
-using DXGIFactory = SharpDX.DXGI.Factory;
-using AlphaMode = SharpDX.Direct2D1.AlphaMode;
+//SharpDX
+using SharpDX.Windows;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
-using Color = SharpDX.Color;
-using NAudio.Wave.SampleProviders;
+using AlphaMode = SharpDX.Direct2D1.AlphaMode;
+using D2DFactory = SharpDX.Direct2D1.Factory;
+using Device = SharpDX.Direct3D11.Device;
+using DXGIFactory = SharpDX.DXGI.Factory;
 
 
 namespace GameEngine

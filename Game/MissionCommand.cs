@@ -13,6 +13,8 @@ namespace GameEngine
         int Pausemenu_line = 0;
         int PausemenuScale = 8;
         int destroyedCities = 0;
+        int aimspeed = 250;
+        int shiftAimspeed = 450;
         Rectanglef rec_landscape;
         Rectanglef rec_pausemenu;
         Rectanglef rec_crosshair = new Rectanglef(Registers.CrosshairX, Registers.CrosshairY, 15, 15);
@@ -24,15 +26,23 @@ namespace GameEngine
         MissileLauncher missileLauncher;
         EnemySpawner enemySpawner;
         List<Building> cities = new List<Building>();
+        public List<Explosion> explosions = new List<Explosion>();
 
         //======================================
-        //YOU LOSE
+        //Score & Alive timer
+
+        //NOT DONE YET
+
+        //======================================
+        //YOU LOSE | you lose screen
 
         Font loseFont;
+        Font loseFontMedium;
         Rectanglef rec_lose = new Rectanglef(Alignment.X.Center - 150, Registers.ScreenHeight * 0.5f - 50, 300, 50);
+        Rectanglef rec_exitText = new Rectanglef(Alignment.X.Center - 150, Registers.ScreenHeight * 0.5f + 100, 300, 50);
 
         //======================================
-        //ERROR HANDLING
+        //ERROR HANDLING | Red screen of death in case of an unexpected error
 
         Font errorFontM;
         Font errorFont;
@@ -58,16 +68,17 @@ namespace GameEngine
             for (int i = 0; i < 6; i++)
             {
                 cities.Add(new Building(this, i));
-                //Console.WriteLine(string.Format("{0}. X: {1} Y: {2} W: {3} H: {4}", i, cities[i].GetX(), cities[i].GetY(), cities[i].GetWidth(), cities[i].GetHeight()));
                 enemySpawner.InitTargets(new Vector2f(
                     cities[i].GetX() + cities[i].GetWidth() * 0.5f,
                     (float)cities[i].GetY()));
             }
+            //This shouldn't give an error
             try
             {
                 errorFontM = new Font("Minecraftia", 26f);
                 errorFont = new Font("Minecraftia", 22f);
                 loseFont = new Font("American Captain", 64f);
+                loseFontMedium = new Font("American Captain", 32f);
             }
             catch (Exception e)
             {
@@ -90,8 +101,9 @@ namespace GameEngine
             missileLauncher.ForwardCollision();
             if (GAME_ENGINE.GetKey(Key.Escape))
             {
-                if (Registers.gameState != GameState.Error) Registers.gameState = GameState.Paused;
                 if (Registers.gameState == GameState.Error) GAME_ENGINE.Quit();
+                if (Registers.gameState == GameState.Running) Registers.gameState = GameState.Paused;
+                if (Registers.gameState == GameState.Stopped) GAME_ENGINE.Quit(); 
             }
             if (GAME_ENGINE.GetKey(Key.ShiftKey))
             {
@@ -114,19 +126,23 @@ namespace GameEngine
                 //make the crosshair move faster when shift is held
                 if (Registers.sprint == false)
                 {
-                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY--;
-                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY++;
-                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX++;
-                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX--;
+                    float speedMultiplier = 1.1f;
+                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= aimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += aimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += aimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= aimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
                 }
                 else
                 {
-                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= 2;
-                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += 2;
-                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += 2;
-                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= 2;
+                    float speedMultiplier = 1.3f;
+                    if (GAME_ENGINE.GetKey(Key.W)) Registers.CrosshairY -= shiftAimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.S) && Registers.CrosshairY < Alignment.Y.Down - 70) Registers.CrosshairY += shiftAimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.D)) Registers.CrosshairX += shiftAimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
+                    if (GAME_ENGINE.GetKey(Key.A)) Registers.CrosshairX -= shiftAimspeed * GAME_ENGINE.GetDeltaTime() * speedMultiplier;
                 }
             }
+
+            //Trigger the error screen by force
             if (GAME_ENGINE.GetKeyDown(Key.F12))
             {
                 Registers.gameState = GameState.Error;
@@ -136,33 +152,34 @@ namespace GameEngine
                 Registers.gameState = GameState.Running;
             }
 
-            if (GAME_ENGINE.GetKeyDown(Key.R))
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    cities[i].Dispose();
-                }
-                GC.Collect();
 
+            //RESETING THE GAME CAN CAUSE PROBLEMS
+            if (GAME_ENGINE.GetKeyDown(Key.R) && Registers.gameState == GameState.Stopped)
+            {
+                Registers.gameState = GameState.Reseting;
+
+                Registers.CrosshairX = Alignment.X.Center;
+                Registers.CrosshairY = Alignment.Y.Center;
+
+                cities.Clear();
                 for (int i = 0; i < 6; i++)
                 {
                     cities.Add(new Building(this, i));
-                    //Console.WriteLine(string.Format("{0}. X: {1} Y: {2} W: {3} H: {4}", i, cities[i].GetX(), cities[i].GetY(), cities[i].GetWidth(), cities[i].GetHeight()));
-                    enemySpawner.InitTargets(new Vector2f(
-                        cities[i].GetX() + cities[i].GetWidth() * 0.5f,
-                        (float)cities[i].GetY()));
                 }
+                GC.Collect();
+                destroyedCities = 0;
+                Registers.gameState = GameState.Running;
             }
 
-
+            //Force lose the game
             if (GAME_ENGINE.GetKeyDown(Key.F2))
             {
-                //Was a screenshot idea
                 destroyedCities = 6;
             }
+
+            //Enable all cities
             if (GAME_ENGINE.GetKeyDown(Key.F3))
             {
-                //Was a screenshot idea
                 destroyedCities = 0;
                 Registers.gameState = GameState.Running;
             }
@@ -170,7 +187,8 @@ namespace GameEngine
 
         public override void Paint()
         {
-            //If there's an error don't show anything else
+
+            //If there's an error don't show anything else, in any class that needs to change values each frame and other drae functions
             if (Registers.gameState != GameState.Error)
             {
                 GAME_ENGINE.SetBackgroundColor(0, 0, 0);
@@ -181,7 +199,10 @@ namespace GameEngine
                 }
                 if (Registers.gameState == GameState.Paused)
                 {
-                    int h = 0;
+                    //Draw pause menu
+                    //DISABLED as it hasn't been completed
+
+                    /*int h = 0;
                     for (int ij = 0; ij < ImageData.PauseMenu.Length; ij++)
                     {
                         if (ImageData.PauseMenu[ij] == 0x00)
@@ -216,8 +237,8 @@ namespace GameEngine
                         }
                         //Console.WriteLine(string.Format("i: {0}, h: {1}, draw X: {2}", i, h, rec_pausemenu.X));
                         //Skip over other color data (G & B of RGB)
-                        ij = ij + 2;
-                    }
+                        ij += 2;
+                    }*/
 
                 }
                 GAME_ENGINE.SetScale(8.5f, 8);
@@ -227,9 +248,12 @@ namespace GameEngine
                 GAME_ENGINE.SetColor(255, 255, 255);
                 if (destroyedCities == 6)
                 {
+                    Registers.gameState = GameState.Stopped;
                     loseFont.SetHorizontalAlignment(Font.Alignment.Center);
+                    loseFontMedium.SetHorizontalAlignment(Font.Alignment.Center);
                     GAME_ENGINE.SetColor(190, 0, 0);
                     GAME_ENGINE.DrawString(loseFont, "You lose", rec_lose);
+                    GAME_ENGINE.DrawString(loseFontMedium, "Press Esc to exit", rec_exitText);
                     GAME_ENGINE.SetColor(0, 0, 0);
                 }
 
@@ -244,38 +268,24 @@ namespace GameEngine
                 GAME_ENGINE.DrawEllipse(rec_crosshair, 2);
                 return;
             }
-            GAME_ENGINE.SetBackgroundColor(215, 0, 0);
-            GAME_ENGINE.SetColor(0, 0, 0);
+            GAME_ENGINE.SetBackgroundColor(200, 0, 30);
+            GAME_ENGINE.SetColor(255, 255, 255);
             GAME_ENGINE.DrawString(errorFontM, "An Error has occured", rec_errorM);
             if (error_reason == null) error_reason = new Exception("Error Screen triggered");
             string err = error_reason.ToString();
+
+            
             //GAME_ENGINE.DrawString(errorFont, string.Format("{0}", Regex.Replace(err, err_pattern, "")), rec_error);
             GAME_ENGINE.DrawString(errorFont, string.Format("{0}", err), rec_error);
+            GAME_ENGINE.SetColor(0, 0, 0);
 
-        }
-        public void ReadFont()
-        {
 
-            string FontPath = @"./Assets/style-error.ttf";
-            if (File.Exists(FontPath))
-                using (StreamReader sr = new StreamReader(FontPath))
-                {
-                    //string fontFam = 
-                    string fsRead = sr.ReadToEnd();
-                    Console.WriteLine(string.Format("Font file: {0}", fsRead));
-                    errorFontM = new Font(fsRead, 24f);
-                }
-            else
-            {
-                Registers.gameState = GameState.Error;
-            }
         }
 
         public void RegisterDestroyedBuilding(Building reg)
         {
-            //cities[cities.IndexOf(reg)] = null;
             destroyedCities++;
-
+            
         }
 
         /// <summary>
@@ -299,6 +309,11 @@ namespace GameEngine
         public EnemySpawner RefEnemySpawner()
         {
             return enemySpawner;
+        }
+
+        public MissileLauncher RefMissleLauncher()
+        {
+            return missileLauncher;
         }
     }
 }
