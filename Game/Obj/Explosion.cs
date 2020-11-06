@@ -15,7 +15,9 @@ namespace GameEngine
         bool nuked = false;
         int type = 0;
         Random rda = new Random();
+#if (DEBUG)
         Bitmap explosion_bmp = new Bitmap("explosion.png");
+#endif
 
         MissileLauncher missileLauncher;
         EnemySpawner enemySpawner;
@@ -80,7 +82,9 @@ namespace GameEngine
                 }
                 else
                 {
+#if (DEBUG)
                     GAME_ENGINE.DrawBitmap(explosion_bmp, ExplosionLocationTopLeft);
+#endif
                 }
 
                 duration -= GAME_ENGINE.GetDeltaTime() * 2.4f;
