@@ -66,6 +66,7 @@ namespace GameEngine
                     cities[i].GetX() + cities[i].GetWidth() * 0.5f,
                     (float)cities[i].GetY()));
             }
+            //This shouldn't give an error
             try
             {
                 errorFontM = new Font("Minecraftia", 26f);

@@ -472,8 +472,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include=".gitignore" />
-    <None Include="Game\FontCrap.cs" />
-    <None Include="Game\CollisionManager.cs" />
     <Compile Include="Game\ImageData.cs" />
     <Compile Include="Game\MissionCommand.cs" />
     <Compile Include="Game\MissleBase.cs" />
