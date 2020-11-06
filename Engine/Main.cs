@@ -28,11 +28,12 @@ namespace GameEngine
     {
         //Check if it's run in debug configuration (compiler
 #if (DEBUG)
-        public static string version = "0.8.24 | DEV CHANNEL";
+        public static string version = "0.8.27 | DEV CHANNEL";
 #else
         public static string version = "0.8.34 | PROD CHANNEL";
 #endif
         public static GameState gameState = GameState.Running;
+        public static int ResetObj = 0;
         public static readonly int ScreenWidth = 1280;
         public static readonly int ScreenHeight = 720;
         public static float CrosshairX = 0;
@@ -63,6 +64,7 @@ namespace GameEngine
         Running,
         Paused,
         Stopped,
+        Reseting,
         Error
     }
 }

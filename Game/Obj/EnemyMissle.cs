@@ -6,12 +6,16 @@ namespace GameEngine
     public class EnemyMissile : GameObject, IDisposable
     {
 
+#pragma warning disable IDE0052 // Remove unread private members
+#pragma warning disable IDE0044
         GameManager gameManager;
         EnemySpawner enemySpawner;
         Explosion explM;
         Random startRandom = new Random();
         float misLocX;
         float misLocY;
+#pragma warning restore IDE0052 // Remove unread private members
+#pragma warning restore IDE0044
         float curTime = 0;
         Vector2f orgin;
         Vector2f dest;
@@ -59,7 +63,7 @@ namespace GameEngine
                 if (Utils.Distance(drawHere, dest) <= 1)
                 //if (drawHere.X >= dest.X && drawHere.Y >= dest.Y && drawHere.X <= (dest.X + 15) && drawHere.Y <= (dest.Y + 15))
                 {
-                    if (targetID <= gameManager.GetBuildings().Count - 1) explM = new Explosion(gameManager, enemySpawner, this, drawHere, gameManager.GetBuildings()[targetID], 1);
+                    if (targetID <= gameManager.GetBuildings().Count - 1) explM = new Explosion(gameManager, enemySpawner, this, drawHere, gameManager.GetBuildings()[targetID], 0);
                     enemySpawner.EMissileDetonate(this);
                     Dispose();
                 }

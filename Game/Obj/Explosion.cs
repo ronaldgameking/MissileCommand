@@ -70,6 +70,11 @@ namespace GameEngine
             Console.WriteLine("Explosion finished");
         }
 
+        public override void GameStart()
+        {
+            gm.explosions.Add(this);
+        }
+
         public override void Paint()
         {
             if (Registers.gameState == GameState.Running)

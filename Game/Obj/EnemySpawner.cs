@@ -56,6 +56,7 @@ namespace GameEngine
             Console.WriteLine("Demontated missile");
             if (emissiles.Contains(demEMissile))
             {
+                demEMissile.Dispose();
                 emissiles.Remove(demEMissile);
             }
             return;

@@ -25,6 +25,7 @@ namespace GameEngine
         MissileLauncher missileLauncher;
         EnemySpawner enemySpawner;
         List<Building> cities = new List<Building>();
+        public List<Explosion> explosions = new List<Explosion>();
 
         //======================================
         //YOU LOSE
@@ -139,20 +140,11 @@ namespace GameEngine
 
             if (GAME_ENGINE.GetKeyDown(Key.R) && Registers.gameState == GameState.Stopped)
             {
+                Registers.gameState = GameState.Reseting;
+
                 Registers.CrosshairX = Alignment.X.Center;
-                for (int i = 0; i < missileLauncher.GetMissiles().Count; i++)
-                {
-                    missileLauncher.GetMissiles()[i].Dispose();
-                }
-                missileLauncher.GetMissiles().Clear();
+                Registers.CrosshairY = Alignment.Y.Center;
 
-                for (int i = 0; i < enemySpawner.GetEnemyMissiles().Count; i++)
-                {
-                    enemySpawner.GetEnemyMissile(i).Dispose();
-                }
-
-                missileLauncher = new MissileLauncher(this);
-                enemySpawner = new EnemySpawner(this);
                 cities.Clear(); 
                 for (int i = 0;  i < 6; i++)
                 {
@@ -169,12 +161,10 @@ namespace GameEngine
 
             if (GAME_ENGINE.GetKeyDown(Key.F2))
             {
-                //Was a screenshot idea
                 destroyedCities = 6;
             }
             if (GAME_ENGINE.GetKeyDown(Key.F3))
             {
-                //Was a screenshot idea
                 destroyedCities = 0;
                 Registers.gameState = GameState.Running;
             }
@@ -229,7 +219,7 @@ namespace GameEngine
                         }
                         //Console.WriteLine(string.Format("i: {0}, h: {1}, draw X: {2}", i, h, rec_pausemenu.X));
                         //Skip over other color data (G & B of RGB)
-                        ij = ij + 2;
+                        ij += 2;
                     }
 
                 }
@@ -257,7 +247,7 @@ namespace GameEngine
                 GAME_ENGINE.DrawEllipse(rec_crosshair, 2);
                 return;
             }
-            GAME_ENGINE.SetBackgroundColor(215, 0, 0);
+            GAME_ENGINE.SetBackgroundColor(200, 0, 30);
             GAME_ENGINE.SetColor(0, 0, 0);
             GAME_ENGINE.DrawString(errorFontM, "An Error has occured", rec_errorM);
             if (error_reason == null) error_reason = new Exception("Error Screen triggered");

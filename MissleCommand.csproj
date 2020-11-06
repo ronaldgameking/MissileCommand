@@ -507,7 +507,6 @@
     <Content Include="Assets\CityBig.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Gameboy Startup Sound.mp3" />
     <Content Include="Assets\icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
